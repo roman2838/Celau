@@ -4,7 +4,7 @@ using System.Collections;
 public class MouseController : MonoBehaviour
 {
     public GameObject hover;
-    public LevelController lvl;
+    private LevelController lvl;
 
     //    public Object marker;
 
@@ -18,6 +18,7 @@ public class MouseController : MonoBehaviour
     {
         
         hover = (GameObject)Instantiate(hover);
+        lvl = WorldController.Instance.lvl;
         currFramePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         currFramePosition.z = .5f;
     }
@@ -25,6 +26,8 @@ public class MouseController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (lvl == null)
+            lvl = WorldController.Instance.lvl;
         //       currFramePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         //        currFramePosition.z = .5f;
         // Do a raycast to find position on field
@@ -49,12 +52,14 @@ public class MouseController : MonoBehaviour
                 {
                     tile.CreateChild();
                     // TODO: Only recognizes black tile moves by now!
-                    lvl.moves[0]--;
+                    WorldController.Instance.moves[0]--;
                     StartCoroutine(WorldController.Instance.UpdateTiles());
                 }
                 else Debug.Log("Out of boundaries");
             }
         }
+        if (Input.GetMouseButton(1))
+            StartCoroutine(WorldController.Instance.Restart());
     }
 
     void UpdateCursor()
