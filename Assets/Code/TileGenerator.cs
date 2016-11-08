@@ -44,7 +44,7 @@ public class TileGenerator{
         {
             for (int y = 0; y < Height; y++)
             {
-                Debug.Log("Created BGTile at (" + x + "," + y);
+                //Debug.Log("Created BGTile at (" + x + "," + y);
                 map[x, y] = new BackgroundTile(x,y);
     }
         }

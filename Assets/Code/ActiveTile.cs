@@ -43,15 +43,37 @@ public class ActiveTile : Tile
     public void CheckNeighbors()
     {
         // Game Logic for black, if east, delete east and creat north.
+        // Old logic
+        //        if (parent.GetNeighbor("East") != null)
+        //            if (parent.GetNeighbor("East").GetChild() != null)
+        //            {
+        ////                Debug.Log("Found child east of (" + X + "," + Y + ")");
+        //                WorldController.Instance.cdqueue += parent.GetNeighbor("East").DestroyChild;
+        //                if (parent.GetNeighbor("North") != null)
+        //                    WorldController.Instance.cdqueue +=  parent.GetNeighbor("North").CreateChild;
+        //                WorldController.Instance.updateneeded = true;
+        //            }
+
+        // Game Logic for black, if e, destroy e and self and create n and nn
+        //  00    *0 
+        //  00 -> *0
+        //  **    00
+
         if (parent.GetNeighbor("East") != null)
-            if (parent.GetNeighbor("East").GetChild() != null)
+        {
+            if(parent.GetNeighbor("East").GetChild() != null)
             {
-//                Debug.Log("Found child east of (" + X + "," + Y + ")");
                 WorldController.Instance.cdqueue += parent.GetNeighbor("East").DestroyChild;
+                WorldController.Instance.cdqueue += parent.DestroyChild;
                 if (parent.GetNeighbor("North") != null)
-                    WorldController.Instance.cdqueue +=  parent.GetNeighbor("North").CreateChild;
+                {
+                    WorldController.Instance.cdqueue += parent.GetNeighbor("North").CreateChild;
+                    if (parent.GetNeighbor("North").GetNeighbor("North") != null)
+                        WorldController.Instance.cdqueue += parent.GetNeighbor("North").GetNeighbor("North").CreateChild;
+                }
                 WorldController.Instance.updateneeded = true;
             }
+        }
 
     }
 }
