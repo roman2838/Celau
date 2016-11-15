@@ -1,20 +1,19 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class LevelData : MonoBehaviour {
+public class LevelData{
     public int x;
     public int y;
-    public enum type { Black };
+    public enum type { Black, Yellow };
     public type tiletype;
-    // Use this for initialization
-    void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
+
+    public LevelData(int x, int y, string type)
+    {
+        this.x = x;
+        this.y = y;
+        if(type == "Black")
+            this.tiletype = LevelData.type.Black;
+    }
 }
 
 //public class LevelData : MonoBehaviour

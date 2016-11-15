@@ -18,7 +18,9 @@ public class MouseController : MonoBehaviour
     {
         
         hover = (GameObject)Instantiate(hover);
-        lvl = WorldController.Instance.lvl;
+        if(WorldController.Instance != null)
+            if(WorldController.Instance.lvl != null)
+                lvl = WorldController.Instance.lvl;
         currFramePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         currFramePosition.z = .5f;
     }

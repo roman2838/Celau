@@ -25,10 +25,11 @@ public class WorldController : MonoBehaviour {
             Debug.LogError("There should never be two world controllers.");
         }
         Instance = this;                                                        // instantiate Worldcontroller
+        lvl = new LevelController("Level2");
         map = new TileGenerator(lvl.Width, lvl.Height);                        // Generate map with Weight/Height given by the Levelcontroller
-        if (lvl == null)
-            Debug.LogError("Level controller missing!");
-        Debug.Log("Created TileGenerator");
+        //if (lvl == null)
+        //    Debug.LogError("Level controller missing!");
+        //Debug.Log("Created TileGenerator");
         // Set Cameraposition to center
         Camera.main.transform.position = new Vector3(lvl.Height / 2, lvl.Width / 2, Camera.main.transform.position.z);
         // Draw the playing field
@@ -42,6 +43,12 @@ public class WorldController : MonoBehaviour {
         }
         // Place initial blocks
         GenerateLevel();
+    }
+
+    // Called on destraction of the Object
+    void OnDestroy()
+    {
+        Destroy(Instance);                                                      // Destroy the instance of the world controller.
     }
 
     public IEnumerator Restart()
@@ -67,7 +74,7 @@ public class WorldController : MonoBehaviour {
         foreach (var block in lvl.leveldata)
         {
             Debug.Log("Levelcontroller creates Child at (" + block.x + "," + block.y + ")");
-            GetTileAt(block.x - 1, block.y - 1).CreateChild();                  // ATTENTION! COORDINATES CONVERTED -1!
+            GetTileAt(block.x, block.y).CreateChild();                  // ATTENTION! COORDINATES CONVERTED -1!
         }
         moves = new int[lvl.moves.Length];
         for (int i = 0; i < lvl.moves.Length; i++)
