@@ -49,10 +49,11 @@ public class MouseController : MonoBehaviour
             {
                 Vector3 Absoluteposition = new Vector3(Mathf.Round(currFramePosition.x), Mathf.Round(currFramePosition.y), .5f);
                 BackgroundTile tile = WorldController.Instance.GetTileAt((int)Absoluteposition.x, (int)Absoluteposition.y);
-                Debug.Log(tile.GetChild());
+//                Debug.Log(tile.GetChild());
                 if ((tile != null) && (tile.GetChild() == null))
                 {
                     tile.CreateChild();
+                    Debug.Log("Clicked at ("+tile.X+","+tile.Y+")");
                     // TODO: Only recognizes black tile moves by now!
                     WorldController.Instance.moves[0]--;
                     StartCoroutine(WorldController.Instance.UpdateTiles());

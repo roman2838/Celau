@@ -46,14 +46,14 @@ public class BackgroundTile : Tile {
     }
     public void CreateChild()
     {
-        Debug.Log("Try to create Child at (" + X + "," + Y + ")");
+//        Debug.Log("Try to create Child at (" + X + "," + Y + ")");
         if (Child != null)
         {
             return;
         }
         else
         {
-            Debug.Log("Created child at (" + X + "," + Y + ")");
+//            Debug.Log("Created child at (" + X + "," + Y + ")");
             Child = new ActiveTile(this, X, Y);
             WorldController.Instance.RegisterTile(Child);
         }
@@ -62,11 +62,11 @@ public class BackgroundTile : Tile {
     {
         if (Child == null)
         {
-            Debug.Log("Destroy not existing child, this should never happen");
+  //          Debug.Log("Destroy not existing child, this should never happen");
         }
         else
         {
-            Debug.Log("Destroy Child at (" + X + "," + Y + ")");
+//            Debug.Log("Destroy Child at (" + X + "," + Y + ")");
             WorldController.Instance.RemoveTile(Child);
             Child = null;
         }

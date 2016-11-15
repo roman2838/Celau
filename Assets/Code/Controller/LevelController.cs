@@ -24,17 +24,27 @@ public class LevelController{
 
         do
         {
-            xreader.ReadToDescendant("Level");
-        } while (xreader.GetAttribute("lvlID") != lvlid);
-        Height = System.Int32.Parse(xreader.GetAttribute("sizey"));
-        Width = System.Int32.Parse(xreader.GetAttribute("sizex"));
-        XmlReader reader = xreader.ReadSubtree();
-        while (reader.Read())
+            xreader.ReadToFollowing("Level");
+        } while ((xreader.GetAttribute("lvlID") != lvlid) && (xreader.EOF == false));
+
+        if (xreader.GetAttribute("lvlID") == lvlid)
         {
-            if (reader.Name == "Supply" && reader.IsStartElement())
-                GenerateSupplyData(reader.ReadSubtree());
-            if (reader.Name == "Board" && reader.IsStartElement())
-                GenerateBoardData(reader.ReadSubtree());
+            Height = System.Int32.Parse(xreader.GetAttribute("sizey"));
+            Width = System.Int32.Parse(xreader.GetAttribute("sizex"));
+            XmlReader reader = xreader.ReadSubtree();
+            while (reader.Read())
+            {
+                if (reader.Name == "Supply" && reader.IsStartElement())
+                    GenerateSupplyData(reader.ReadSubtree());
+                if (reader.Name == "Board" && reader.IsStartElement())
+                    GenerateBoardData(reader.ReadSubtree());
+            }
+        }
+        else
+        {
+            Height = 10;
+            Width = 10;
+            moves = new int[] { 99, 99 };
         }
     }
 

@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class WorldController : MonoBehaviour {
     public bool updateneeded = false;
@@ -15,9 +17,11 @@ public class WorldController : MonoBehaviour {
     public int[] moves;
     public Del cdqueue;                                                         //Creation/Destruction queue
     public LevelController lvl;
+    public Button ToMenu;
 
 
     void Start() {
+        ToMenu.onClick.AddListener(delegate { GoToMenu(); });                   //FIXME: This is totally dumb!
         Physics.gravity = new Vector3(0f, 0f, -9.81f);                          // Set Gravity in z-direction
         // Make this accessible via WorldController.Instance
         if (Instance != null)
@@ -25,7 +29,8 @@ public class WorldController : MonoBehaviour {
             Debug.LogError("There should never be two world controllers.");
         }
         Instance = this;                                                        // instantiate Worldcontroller
-        lvl = new LevelController("Level2");
+        Debug.Log(PlayerPrefs.GetString("currlvl"));
+        lvl = new LevelController(PlayerPrefs.GetString("currlvl"));
         map = new TileGenerator(lvl.Width, lvl.Height);                        // Generate map with Weight/Height given by the Levelcontroller
         //if (lvl == null)
         //    Debug.LogError("Level controller missing!");
@@ -70,12 +75,12 @@ public class WorldController : MonoBehaviour {
 
     private void GenerateLevel()
     {
-
-        foreach (var block in lvl.leveldata)
-        {
-            Debug.Log("Levelcontroller creates Child at (" + block.x + "," + block.y + ")");
-            GetTileAt(block.x, block.y).CreateChild();                  // ATTENTION! COORDINATES CONVERTED -1!
-        }
+        if(lvl.leveldata != null)
+            foreach (var block in lvl.leveldata)
+            {
+                Debug.Log("Levelcontroller creates Child at (" + block.x + "," + block.y + ")");
+                GetTileAt(block.x, block.y).CreateChild();                  // ATTENTION! COORDINATES CONVERTED -1!
+            }
         moves = new int[lvl.moves.Length];
         for (int i = 0; i < lvl.moves.Length; i++)
         {
@@ -160,4 +165,12 @@ public class WorldController : MonoBehaviour {
         }
         return false;
     }
+    
+
+// Update is called once per frame
+
+public static void GoToMenu()
+{
+    SceneManager.LoadScene("LevelSelection");
+}
 }
