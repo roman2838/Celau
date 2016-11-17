@@ -1,0 +1,77 @@
+<?xml version="1.0"?>
+<Levels>
+	<Level lvlID="level1" sizex="9" sizey="9">
+		<Supply>
+			<tiles type="Black" amount="100" />
+		</Supply>
+		<Board>
+			<tile type="Black" x="4" y="1" />
+		</Board>
+		<WinCondition>
+		</WinCondition>
+	</Level>
+		<Level lvlID="Level2" sizex="4" sizey="4">
+		<Supply>
+			<tiles type="Black" amount="2" />
+		</Supply>
+		<Board>
+			<tile type="Black" x="0" y="0" />
+			<tile type="Black" x="0" y="1" />
+		</Board>
+		<WinCondition>
+		</WinCondition>
+	</Level>
+	<Level lvlID="Level3" sizex="5" sizey="5">
+		<Supply>
+			<tiles type="Black" amount="2" />
+		</Supply>
+		<Board>
+			<tile type="Black" x="3" y="0" />
+			<tile type="Black" x="4" y="3" />
+			<!-- tile type="Black" x="6" y="5" /> 
+			<tile type="Black" x="7" y="8" /-->
+		</Board>
+		<WinCondition>
+		</WinCondition>
+	</Level>
+		<Level lvlID="Level4" sizex="6" sizey="6">
+		<Supply>
+			<tiles type="Black" amount="4" />
+		</Supply>
+		<Board>
+			<tile type="Black" x="0" y="0" />
+			<tile type="Black" x="4" y="3" />
+			<tile type="Black" x="5" y="5" /> 
+		</Board>
+		<WinCondition>
+		</WinCondition>
+	</Level>
+	<Level lvlID="Level5" sizex="9" sizey="9">
+		<Supply>
+			<tiles type="Black" amount="2" />
+		</Supply>
+		<Board>
+			<tile type="Black" x="0" y="0" />
+			<tile type="Black" x="3" y="3" />
+			<tile type="Black" x="3" y="4" /> 
+			<tile type="Black" x="4" y="5" /> 
+			<tile type="Black" x="4" y="6" /> 
+			<tile type="Black" x="5" y="7" /> 
+			<tile type="Black" x="5" y="8" /> 
+		</Board>
+		<WinCondition>
+		</WinCondition>
+	</Level>
+	<Level lvlID="Level6" sizex="5" sizey="5">
+		<Supply>
+			<tiles type="Black" amount="2" />
+		</Supply>
+		<Board>
+			<tile type="Black" x="2" y="3" />
+			<tile type="Black" x="3" y="0" />
+			<tile type="Black" x="1" y="0" /> 
+		</Board>
+		<WinCondition>
+		</WinCondition>
+	</Level>
+</Levels>	
