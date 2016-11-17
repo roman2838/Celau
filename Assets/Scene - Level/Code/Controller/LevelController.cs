@@ -14,10 +14,21 @@ public class LevelController{
 
     public LevelController(string lvlid)
     {
-        // Find Levels XML file in filesystem
-        string filepath = System.IO.Path.Combine(Application.streamingAssetsPath, "Levels");
-        filepath = System.IO.Path.Combine(filepath, "Basic.xml");
-        string lvlsxml = System.IO.File.ReadAllText(filepath);
+        string lvlsxml;
+        if (Application.platform == RuntimePlatform.WebGLPlayer)
+        {
+            TextAsset myXmlAsset = Resources.Load<TextAsset>("Basic");
+            Debug.Log(myXmlAsset);
+            lvlsxml = myXmlAsset.text;
+
+        }
+        else
+        {
+            // Find Levels XML file in filesystem
+            string filepath = System.IO.Path.Combine(Application.streamingAssetsPath, "Levels");
+            filepath = System.IO.Path.Combine(filepath, "Basic.xml");
+            lvlsxml = System.IO.File.ReadAllText(filepath);
+        }
         // Setup XML Reader
         System.IO.TextReader treader = new System.IO.StringReader(lvlsxml);
         XmlTextReader xreader = new XmlTextReader(treader);

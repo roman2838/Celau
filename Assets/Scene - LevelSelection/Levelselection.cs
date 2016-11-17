@@ -10,9 +10,20 @@ public class Levelselection : MonoBehaviour {
     public GameObject canvas;
 	// Use this for initialization
 	void Start () {
-        string filepath = System.IO.Path.Combine(Application.streamingAssetsPath, "Levels");
-        filepath = System.IO.Path.Combine(filepath, "Basic.xml");
-        string lvlsxml = System.IO.File.ReadAllText(filepath);
+        string lvlsxml;
+        if (Application.platform == RuntimePlatform.WebGLPlayer)
+        {
+        TextAsset myXmlAsset = Resources.Load<TextAsset>("Basic");
+        Debug.Log(myXmlAsset);
+            lvlsxml = myXmlAsset.text;
+
+        }
+        else
+        {
+            string filepath = System.IO.Path.Combine(Application.streamingAssetsPath, "Levels");
+            filepath = System.IO.Path.Combine(filepath, "Basic.xml");
+            lvlsxml = System.IO.File.ReadAllText(filepath);
+        }
         // Setup XML Reader
         System.IO.TextReader treader = new System.IO.StringReader(lvlsxml);
         XmlTextReader xreader = new XmlTextReader(treader);

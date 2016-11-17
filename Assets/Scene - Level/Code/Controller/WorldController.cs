@@ -10,6 +10,7 @@ public class WorldController : MonoBehaviour {
     public GameObject[] ATiles;                                                 //ActiveTile Prefabs
     public bool locked = false;                                                 // Accepts Input? Yes or no!
     public static WorldController Instance { get; protected set; }              //Make this WorldController instance publicly available
+
     private TileGenerator map;                                                  //Create the map
     private List<ActiveTile> activetiles = new List<ActiveTile>();              //List of active Tiles
     private List<GameObject> sprites = new List<GameObject>();                  // Manage Sprites
@@ -17,11 +18,12 @@ public class WorldController : MonoBehaviour {
     public int[] moves;
     public Del cdqueue;                                                         //Creation/Destruction queue
     public LevelController lvl;
-    public Button ToMenu;
+    public UIController UI;
 
 
     void Start() {
-        ToMenu.onClick.AddListener(delegate { GoToMenu(); });                   //FIXME: This is totally dumb!
+        UI = GameObject.Find("UI").GetComponent<UIController>();
+        
         Physics.gravity = new Vector3(0f, 0f, -9.81f);                          // Set Gravity in z-direction
         // Make this accessible via WorldController.Instance
         if (Instance != null)
@@ -69,6 +71,7 @@ public class WorldController : MonoBehaviour {
         cdqueue = () => { };
         updateneeded = false;
         locked = false;
+        UI.SetWLStatus();
         GenerateLevel();
     }
 
@@ -81,11 +84,13 @@ public class WorldController : MonoBehaviour {
                 Debug.Log("Levelcontroller creates Child at (" + block.x + "," + block.y + ")");
                 GetTileAt(block.x, block.y).CreateChild();                  // ATTENTION! COORDINATES CONVERTED -1!
             }
+
         moves = new int[lvl.moves.Length];
         for (int i = 0; i < lvl.moves.Length; i++)
         {
             moves[i] = lvl.moves[i];
         }
+        UI.UpdateMoves(moves[0]);
     }
 	
 	// Find the tile at position x,y
@@ -152,25 +157,22 @@ public class WorldController : MonoBehaviour {
         }
         if(moves[0] != 0)
             locked = false;
-        if (CheckWinCondition())
-            Debug.Log("You won!");
-
+        CheckWinCondition();
     }
 
-    public bool CheckWinCondition()
+    public void CheckWinCondition()
     {
-        if(activetiles.Count == 0)
+        UI.UpdateMoves(moves[0]);
+        if (activetiles.Count == 0)
         {
-            return true;
+            UI.SetWLStatus(true, activetiles.Count);
         }
-        return false;
+        else if (moves[0]== 0)
+            UI.SetWLStatus(false, activetiles.Count);
     }
     
 
 // Update is called once per frame
 
-public static void GoToMenu()
-{
-    SceneManager.LoadScene("LevelSelection");
-}
+
 }
