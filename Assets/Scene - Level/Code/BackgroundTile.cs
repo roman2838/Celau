@@ -58,6 +58,36 @@ public class BackgroundTile : Tile {
             WorldController.Instance.RegisterTile(Child);
         }
     }
+
+    public void CreateBlackChild()
+    {
+        if (Child != null)
+        {
+            return;
+        }
+        else
+        {
+            //            Debug.Log("Created child at (" + X + "," + Y + ")");
+            Child = new ActiveTile(this, X, Y, ActiveTile.type.Black);
+            WorldController.Instance.RegisterTile(Child);
+        }
+    }
+
+    public void CreateWhiteChild()
+    {
+        if (Child != null)
+        {
+            return;
+        }
+        else
+        {
+            //            Debug.Log("Created child at (" + X + "," + Y + ")");
+            Child = new ActiveTile(this, X, Y, ActiveTile.type.White);
+            WorldController.Instance.RegisterTile(Child);
+        }
+    }
+
+
     public void DestroyChild()
     {
         if (Child == null)

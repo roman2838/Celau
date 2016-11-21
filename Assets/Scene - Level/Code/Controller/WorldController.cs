@@ -19,6 +19,7 @@ public class WorldController : MonoBehaviour {
     public Del cdqueue;                                                         //Creation/Destruction queue
     public LevelController lvl;
     public UIController UI;
+    public ActiveTile.type selectedtile;                                               // Current selection from supply
 
 
     void Start() {
@@ -50,6 +51,10 @@ public class WorldController : MonoBehaviour {
         }
         // Place initial blocks
         GenerateLevel();
+        if (moves[(int)selectedtile] == 0)
+            Debug.Log("Before Switching Highlighter:");
+            Debug.Log(moves.Length);
+            SwitchSelectedTile();
     }
 
     // Called on destraction of the Object
@@ -58,7 +63,7 @@ public class WorldController : MonoBehaviour {
         Destroy(Instance);                                                      // Destroy the instance of the world controller.
     }
 
-    public IEnumerator Restart()
+    private IEnumerator RestartRoutine()
     {
         List<ActiveTile> tmp = new List<ActiveTile>(activetiles);                       // Generate temporary list for foreach, since CheckNeighbors modifies activetiles
         updateneeded = false;
@@ -73,24 +78,41 @@ public class WorldController : MonoBehaviour {
         locked = false;
         UI.SetWLStatus();
         GenerateLevel();
+        if (moves[(int)selectedtile] == 0)
+            SwitchSelectedTile();
+
     }
 
+    public void Restart()
+    {
+        StartCoroutine(Instance.RestartRoutine());
+    }
 
     private void GenerateLevel()
     {
         if(lvl.leveldata != null)
-            foreach (var block in lvl.leveldata)
+            foreach (var tile in lvl.leveldata)
             {
-                Debug.Log("Levelcontroller creates Child at (" + block.x + "," + block.y + ")");
-                GetTileAt(block.x, block.y).CreateChild();                  // ATTENTION! COORDINATES CONVERTED -1!
+ //               Debug.Log("Levelcontroller creates Child at (" + tile.x + "," + tile.y + ")");
+                switch (tile.type)
+                {
+                    case ActiveTile.type.Black:
+                        GetTileAt(tile.x, tile.y).CreateBlackChild();
+                        break;
+                    case ActiveTile.type.White:
+                        GetTileAt(tile.x, tile.y).CreateWhiteChild();
+                        break;
+                }
+                
             }
-
+        Debug.Log("Level.moves.Length:" + lvl.moves.Length);
         moves = new int[lvl.moves.Length];
         for (int i = 0; i < lvl.moves.Length; i++)
         {
             moves[i] = lvl.moves[i];
+            Debug.Log(i + " : " + lvl.moves[i]);
         }
-        UI.UpdateMoves(moves[0]);
+        UI.UpdateMoves(moves);
     }
 	
 	// Find the tile at position x,y
@@ -106,7 +128,7 @@ public class WorldController : MonoBehaviour {
     // Register tile to the ActiveTiles list and create the sprite
     public void RegisterTile(ActiveTile atile)
     {
-        atile.Sprite = (GameObject)Instantiate(ATiles[0], new Vector3(atile.X, atile.Y, 3f), Quaternion.identity);
+        atile.Sprite = (GameObject)Instantiate(ATiles[(int)atile.Type], new Vector3(atile.X, atile.Y, 3f), Quaternion.identity);
         atile.Sprite.GetComponent<Rigidbody>().AddForce(0, 0, -1000f);
         activetiles.Add(atile);    
     }
@@ -155,24 +177,62 @@ public class WorldController : MonoBehaviour {
             yield return new WaitForSeconds(.15f);
             cdqueue = () => { };
         }
-        if(moves[0] != 0)
-            locked = false;
+        //if(moves[0] != 0)
+        //    locked = false;
         CheckWinCondition();
     }
 
     public void CheckWinCondition()
     {
-        UI.UpdateMoves(moves[0]);
+        int totalmoves = 0;
+        foreach (int i in moves)
+            totalmoves += i;
+        Debug.Log(totalmoves);
+        UI.UpdateMoves(moves);
         if (activetiles.Count == 0)
         {
             UI.SetWLStatus(true, activetiles.Count);
         }
-        else if (moves[0]== 0)
+        else if (totalmoves == 0)
             UI.SetWLStatus(false, activetiles.Count);
+        else locked = false;
     }
     
 
-// Update is called once per frame
+    public void OnAction(int x, int y)
+    {
+        //Debug.Log("Moves for " + selectedtile + ":" + (moves[(int)selectedtile]-1));
+        BackgroundTile tile = GetTileAt(x,y);
+        if ((tile != null) && (tile.GetChild() == null) && moves[(int)selectedtile] > 0)
+        {
+            switch (selectedtile)
+            {
+                case ActiveTile.type.Black:                 
+                        tile.CreateBlackChild();
+                        WorldController.Instance.moves[(int)ActiveTile.type.Black]--;
+                        StartCoroutine(WorldController.Instance.UpdateTiles());
+                    break;
+                case ActiveTile.type.White:
+                    tile.CreateWhiteChild();
+                    WorldController.Instance.moves[(int)ActiveTile.type.White]--;
+                    StartCoroutine(WorldController.Instance.UpdateTiles());
+                    break;
+            }
+        }
+        else Debug.Log("Out of boundaries");
+    }
 
-
+    public void SwitchSelectedTile()
+    {
+        int i = 0;
+        while (++i <= moves.Length)
+        {
+            if (moves[(((int)selectedtile + i) % moves.Length)] != 0)
+            {
+                selectedtile = (ActiveTile.type)(((int)selectedtile + i) % moves.Length);
+                UI.UpdateHighlight(selectedtile);
+                return;
+            }
+        }
+    }
 }

@@ -5,7 +5,9 @@ public class MouseController : MonoBehaviour
 {
     public GameObject hover;
     private LevelController lvl;
-
+    public Material[] materials;
+    public Renderer rend;
+    
     //    public Object marker;
 
     // The world-position of the mouse last frame.
@@ -18,7 +20,8 @@ public class MouseController : MonoBehaviour
     {
         
         hover = (GameObject)Instantiate(hover);
-        if(WorldController.Instance != null)
+        rend = hover.GetComponent<Renderer>();
+        if (WorldController.Instance != null)
             if(WorldController.Instance.lvl != null)
                 lvl = WorldController.Instance.lvl;
         currFramePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -48,30 +51,28 @@ public class MouseController : MonoBehaviour
             if (WorldController.Instance.locked == false)
             {
                 Vector3 Absoluteposition = new Vector3(Mathf.Round(currFramePosition.x), Mathf.Round(currFramePosition.y), .5f);
-                BackgroundTile tile = WorldController.Instance.GetTileAt((int)Absoluteposition.x, (int)Absoluteposition.y);
-//                Debug.Log(tile.GetChild());
-                if ((tile != null) && (tile.GetChild() == null))
-                {
-                    tile.CreateChild();
-                    Debug.Log("Clicked at ("+tile.X+","+tile.Y+")");
-                    // TODO: Only recognizes black tile moves by now!
-                    WorldController.Instance.moves[0]--;
-                    StartCoroutine(WorldController.Instance.UpdateTiles());
-                }
-                else Debug.Log("Out of boundaries");
+                WorldController.Instance.OnAction((int)Absoluteposition.x, (int)Absoluteposition.y);
             }
         }
-        if (Input.GetMouseButton(1))
-            StartCoroutine(WorldController.Instance.Restart());
+        if (Input.GetMouseButtonDown(1))
+            WorldController.Instance.SwitchSelectedTile();
     }
 
     void UpdateCursor()
     {
          hover.transform.position = new Vector3(Mathf.Round(currFramePosition.x), Mathf.Round(currFramePosition.y), .5f);
         if (WorldController.Instance.locked)
-            hover.GetComponent<MeshRenderer>().material.color = Color.red;
+        {
+            //            hover.GetComponent<MeshRenderer>().material.color = Color.red;
+            rend.sharedMaterial = materials[0];
+        }
         else
-            hover.GetComponent<MeshRenderer>().material.color = Color.green;
-           
+        {
+            if (WorldController.Instance.selectedtile == ActiveTile.type.Black)
+                //hover.GetComponent<MeshRenderer>().material.color = Color.green;
+                rend.sharedMaterial = materials[1];
+            else if (WorldController.Instance.selectedtile == ActiveTile.type.White)
+                rend.sharedMaterial = materials[2];
+        }  
     }
 }

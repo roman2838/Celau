@@ -40,7 +40,6 @@ public class Levelselection : MonoBehaviour {
         {
             if (s != null)
             {
-            Debug.Log(i);
             GameObject go = (GameObject)Instantiate(buttonprefab);
             go.transform.SetParent(canvas.transform);
             go.name = "Select " + s;

@@ -7,11 +7,13 @@ public class UIController : MonoBehaviour {
     private GameObject LvlName;
     private GameObject MoveCounter;
     private GameObject WLStatus;
+    private GameObject Highlight;
 	// Use this for initialization
 	void Start () {
         LvlName = GameObject.Find("UI_LevelName");
         MoveCounter = GameObject.Find("UI_Moves");
         WLStatus = GameObject.Find("UI_WLStatus");
+        Highlight = GameObject.Find("UI_Highlight");
         LvlName.GetComponent<Text>().text = "Level: " + PlayerPrefs.GetString("currlvl");
         SetWLStatus();
         //GetComponents<Text>(LvlName).guiText = PlayerPrefs.GetString("currlvl");
@@ -32,7 +34,7 @@ public class UIController : MonoBehaviour {
         }
         if (won == false)
         {
-            WLStatus.GetComponent<Text>().text = "You lost, " + remaining + " tiles remaining!\nPress RMB to restart!";
+            WLStatus.GetComponent<Text>().text = "You lost, " + remaining + " tiles remaining!";
             WLStatus.GetComponent<Text>().color = new Color(.7f, 0f, 0f);
         }
     }
@@ -40,7 +42,7 @@ public class UIController : MonoBehaviour {
     public void SetWLStatus()
     {
         WLStatus.GetComponent<Text>().color = Color.black;
-        WLStatus.GetComponent<Text>().text = "Clear the board!";
+        WLStatus.GetComponent<Text>().text = "Clear the board!\nRMB to switch tiles";
 
     }
 
@@ -49,9 +51,36 @@ public class UIController : MonoBehaviour {
         SceneManager.LoadScene("LevelSelection");
     }
 
-    public void UpdateMoves(int i)
+    public void UpdateMoves(int[] i)
     {
+        Debug.Log(i);
+        for (int j = 0; j < 2; j++)
+        {
+            Debug.Log(j + " : " + i[j]);
+        }
+        MoveCounter.GetComponent<Text>().text = "Moves: \n"+
+                                                "Black: " + i[0].ToString() + "\n"+
+                                                "<color=yellow>Yellow: " + i[1].ToString() + "</color>\n"+
+                                                "<color=white>White: " + i[2].ToString() + "</color>";
+    }
 
-        MoveCounter.GetComponent<Text>().text = "Moves: " + i.ToString();
+    public void UpdateHighlight(ActiveTile.type selection)
+    {
+        Debug.Log((int)selection);
+        //Vector3 pos = Highlight.GetComponent<RectTransform>().position;
+        //pos.y -=  ((int)selection-(int)oldselection)*15;
+        RectTransform parent = Highlight.transform.parent.gameObject.GetComponent<RectTransform>();
+        Debug.Log(parent == Highlight.GetComponent<RectTransform>());
+        Vector3[] corner = new Vector3[4];
+        parent.GetWorldCorners(corner);
+        //foreach (Vector3 i in corner)
+        //    Debug.Log(i);
+        Vector3 pos = corner[1] + new Vector3(5, -16 - (int)selection * 16, 0);
+
+
+        //pos.y = -15 - (int)selection * 15;
+        Debug.Log(pos.y);
+        Highlight.GetComponent<RectTransform>().position = pos;
+        Debug.Log(Highlight.GetComponent<RectTransform>().position);
     }
 }

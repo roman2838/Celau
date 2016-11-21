@@ -9,7 +9,7 @@ public class LevelController{
     //public int Tiles;
     public LevelData[] leveldata;
     public int[] moves;
-    public enum type { Black, Yellow };
+//    public enum type { Black, Yellow, White };
     //public int[] Papapapa;
 
     public LevelController(string lvlid)
@@ -32,7 +32,7 @@ public class LevelController{
         // Setup XML Reader
         System.IO.TextReader treader = new System.IO.StringReader(lvlsxml);
         XmlTextReader xreader = new XmlTextReader(treader);
-
+        // Read Level Data
         do
         {
             xreader.ReadToFollowing("Level");
@@ -61,28 +61,32 @@ public class LevelController{
 
     private void GenerateSupplyData(XmlReader xreader)
     {
-        Dictionary<type, int> supply = new Dictionary<type, int>();
+        Dictionary<ActiveTile.type, int> supply = new Dictionary<ActiveTile.type, int>();
     //Debug.Log("SupplyData");
     while (xreader.Read())
         {
         if(xreader.Name == "tiles")
             {
                 if (xreader.GetAttribute("type") == "Black")
-                {
-                    supply.Add(type.Black, System.Int32.Parse(xreader.GetAttribute("amount")));
+                    supply.Add(ActiveTile.type.Black, System.Int32.Parse(xreader.GetAttribute("amount")));
 
-                }
                 else if(xreader.GetAttribute("type") == "Yellow")
-                    supply.Add(type.Yellow, System.Int32.Parse(xreader.GetAttribute("amount")));
+                    supply.Add(ActiveTile.type.Yellow, System.Int32.Parse(xreader.GetAttribute("amount")));
+
+                else if (xreader.GetAttribute("type") == "White")
+                    supply.Add(ActiveTile.type.White, System.Int32.Parse(xreader.GetAttribute("amount")));
             }
             
         }
-        moves = new int[2];
-        if (supply.ContainsKey(type.Black))
-            moves[0] = supply[type.Black];
-        if (supply.ContainsKey(type.Yellow))
-            moves[1] = supply[type.Yellow];
-}
+        moves = new int[3] { 0, 0, 0 };
+
+        if (supply.ContainsKey(ActiveTile.type.Black))
+            moves[0] = supply[ActiveTile.type.Black];
+        if (supply.ContainsKey(ActiveTile.type.Yellow))
+            moves[1] = supply[ActiveTile.type.Yellow];
+        if (supply.ContainsKey(ActiveTile.type.White))
+            moves[2] = supply[ActiveTile.type.White];
+    }
 
     private void GenerateBoardData(XmlReader xreader)
     {
