@@ -51,8 +51,8 @@ Temporary Items
 # =============== #
 [Tt]emp/
 [Oo]bj/
-[Bb]uild
-/[Ll]ibrary/
+[Bb]uild/
+[Ll]ibrary/
 sysinfo.txt
 *.stackdump
  
@@ -82,3 +82,8 @@ ehthumbs.db
 [Tt]humbs.db
 [Dd]esktop.ini
 
+Library/assetDatabase3
+Library/assetDatabase3
+Library/assetDatabase3
+*.dwlt
+Library/metadata/9b/9b84373fe3c323d4a827b1b07b4435de
