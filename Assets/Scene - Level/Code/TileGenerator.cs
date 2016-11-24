@@ -39,7 +39,6 @@ public class TileGenerator{
         Width = w;
         Height = h;
         map = new BackgroundTile[Width, Height];
-        Debug.Log("Created map with dimensions " + Width + "x" + Height);
         for (int x = 0; x < Width; x++)
         {
             for (int y = 0; y < Height; y++)

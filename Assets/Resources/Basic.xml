@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <Levels>
-	<Level lvlID="level1" sizex="9" sizey="9">
+	<Level lvlID="(T) What's black?" sizex="9" sizey="9">
 		<Supply>
 			<tiles type="Black" amount="100" />
 		</Supply>
@@ -10,7 +10,7 @@
 		<WinCondition>
 		</WinCondition>
 	</Level>
-		<Level lvlID="Level2" sizex="4" sizey="4">
+	<Level lvlID="(1) Basic Training" sizex="4" sizey="4">
 		<Supply>
 			<tiles type="Black" amount="2" />
 		</Supply>
@@ -21,7 +21,32 @@
 		<WinCondition>
 		</WinCondition>
 	</Level>
-	<Level lvlID="Level3" sizex="5" sizey="5">
+	<Level lvlID="(2) Rocket Science" sizex="5" sizey="5">
+		<Supply>
+			<tiles type="Black" amount="2" />
+		</Supply>
+		<Board>
+			<tile type="Black" x="2" y="3" />
+			<tile type="Black" x="3" y="0" />
+			<tile type="Black" x="1" y="0" /> 
+		</Board>
+		<WinCondition>
+		</WinCondition>
+	</Level>
+	<Level lvlID="(3) Led Zeppelin" sizex="7" sizey="7">
+		<Supply>
+			<tiles type="Black" amount="3" />
+		</Supply>
+		<Board>
+			<tile type="Black" x="1" y="1" />
+			<tile type="Black" x="3" y="3" /> 
+			<tile type="Black" x="5" y="5" /> 
+			<tile type="Black" x="6" y="6" /> 
+		</Board>
+		<WinCondition>
+		</WinCondition>
+	</Level>
+	<Level lvlID="(4) Obvious?" sizex="5" sizey="5">
 		<Supply>
 			<tiles type="Black" amount="2" />
 		</Supply>
@@ -34,42 +59,228 @@
 		<WinCondition>
 		</WinCondition>
 	</Level>
-		<Level lvlID="Level4" sizex="6" sizey="6">
+	<Level lvlID="(5) Careful!" sizex="6" sizey="6">
 		<Supply>
-			<tiles type="Black" amount="4" />
+			<tiles type="Black" amount="3" />
 		</Supply>
 		<Board>
-			<tile type="Black" x="0" y="0" />
+			<tile type="Black" x="1" y="0" />
+			<tile type="Black" x="1" y="1" />
+			<tile type="Black" x="3" y="0"/> 
+			<tile type="Black" x="3" y="1" />
 			<tile type="Black" x="4" y="3" />
-			<tile type="Black" x="5" y="5" /> 
+			<tile type="Black" x="5" y="2" />
 		</Board>
 		<WinCondition>
 		</WinCondition>
 	</Level>
-	<Level lvlID="Level5" sizex="9" sizey="9">
+	<Level lvlID="(T) What's white?" sizex="9" sizey="9">
 		<Supply>
+			<tiles type="White" amount="100" />
+		</Supply>
+		<Board>
+			<tile type="White" x="4" y="1" />
+		</Board>
+		<WinCondition>
+		</WinCondition>
+	</Level>
+	<Level lvlID="(6) A big step" sizex="9" sizey="9">
+		<Supply>
+			<tiles type="White" amount="2" />
+		</Supply>
+		<Board>
+			<tile type="White" x="8" y="0" />
+			<tile type="White" x="5" y="3" />
+			<tile type="White" x="5" y="4" /> 
+			<tile type="White" x="4" y="5" /> 
+			<tile type="White" x="4" y="6" /> 
+			<tile type="White" x="3" y="7" /> 
+			<tile type="White" x="3" y="8" /> 
+		</Board>
+		<WinCondition>
+		</WinCondition>
+	</Level>
+	<Level lvlID="(7) Easier than it looks" sizex="6" sizey="6">
+		<Supply>
+			<tiles type="White" amount="3" />
+		</Supply>
+		<Board>
+			<tile type="White" x="5" y="0" />
+			<tile type="White" x="1" y="3" />
+			<tile type="White" x="0" y="5" /> 
+		</Board>
+		<WinCondition>
+		</WinCondition>
+	</Level>
+		<Level lvlID="(8) The Long Road" sizex="6" sizey="6">
+		<Supply>
+			<tiles type="White" amount="3" />
+		</Supply>
+		<Board>
+			<tile type="White" x="1" y="1" />
+			<tile type="White" x="2" y="0" />
+			<tile type="White" x="4" y="0" /> 
+		</Board>
+		<WinCondition>
+		</WinCondition>
+	</Level>
+	<Level lvlID="(T) Black/White" sizex="9" sizey="9">
+		<Supply>
+			<tiles type="Black" amount="50" />
+			<tiles type="White" amount="50" />
+		</Supply>
+		<Board>
+			<tile type="White" x="3" y="1" />
+			<tile type="Black" x="5" y="1" />
+		</Board>
+		<WinCondition>
+		</WinCondition>
+	</Level>
+	<Level lvlID="(9) Ping Pong" sizex="7" sizey="4">
+		<Supply>
+			<tiles type="White" amount="1" />
+			<tiles type="Black" amount="1" />
+		</Supply>
+		<Board>
+			<tile type="White" x="0" y="1" />
+			<tile type="White" x="6" y="1" />
+			<tile type="Black" x="2" y="1" />
+			<tile type="Black" x="4" y="1" />
+		</Board>
+		<WinCondition>
+		</WinCondition>
+	</Level>
+	<Level lvlID="(10) Babysteps" sizex="6" sizey="7">
+		<Supply>
+			<tiles type="White" amount="3" />
+			<tiles type="Black" amount="3" />
+		</Supply>
+		<Board>
+			<tile type="White" x="4" y="1" />
+			<tile type="White" x="4" y="2" />
+			<tile type="Black" x="1" y="1" />
+			<tile type="Black" x="1" y="2" />
+		</Board>
+		<WinCondition>
+		</WinCondition>
+	</Level>
+	<Level lvlID="(11) Untitled" sizex="7" sizey="4">
+		<Supply>
+			<tiles type="White" amount="2" />
+			<tiles type="Black" amount="1" />
+		</Supply>
+		<Board>
+			<tile type="Black" x="1" y="1" />
+			<tile type="Black" x="3" y="1" />
+			<tile type="Black" x="5" y="1" />
+		</Board>
+		<WinCondition>
+		</WinCondition>
+	</Level>
+	<Level lvlID="(12) Get Away!" sizex="6" sizey="5">
+		<Supply>
+			<tiles type="White" amount="2" />
+		</Supply>
+		<Board>
+			<tile type="Black" x="1" y="1" />
+			<tile type="Black" x="1" y="2" />
+			<tile type="Black" x="3" y="1" />
+			<tile type="Black" x="3" y="2" />
+			<tile type="Black" x="4" y="3" />
+			<tile type="Black" x="4" y="4" />
+		</Board>
+		<WinCondition>
+		</WinCondition>
+	</Level>
+	<Level lvlID="(13) Origin of Symmetry" sizex="9" sizey="5">
+		<Supply>
+			<tiles type="White" amount="2" />
+		</Supply>
+		<Board>
+			<tile type="Black" x="1" y="1" />
+			<tile type="Black" x="1" y="2" />
+			<tile type="Black" x="3" y="1" />
+			<tile type="Black" x="3" y="2" />
+			<tile type="Black" x="5" y="1" />
+			<tile type="Black" x="5" y="2" />
+			<tile type="Black" x="7" y="1" />
+			<tile type="Black" x="7" y="2" />			
+		</Board>
+		<WinCondition>
+		</WinCondition>
+	</Level>
+	<Level lvlID="(14) Chain Reactions" sizex="8" sizey="5">
+		<Supply>
+			<tiles type="White" amount="2" />
 			<tiles type="Black" amount="2" />
+		</Supply>
+		<Board>
+			<tile type="White" x="1" y="4" />
+			<tile type="White" x="1" y="3" />
+			<tile type="White" x="2" y="2" />
+			<tile type="White" x="2" y="1" />
+			<tile type="Black" x="4" y="1" />
+			<tile type="Black" x="4" y="2" />
+			<tile type="Black" x="7" y="4" />
+			<tile type="Black" x="7" y="3" />
+		</Board>
+		<WinCondition>
+		</WinCondition>
+	</Level>
+	<Level lvlID="(15) Getting harder" sizex="6" sizey="9">
+		<Supply>
+			<tiles type="White" amount="3" />
+			<tiles type="Black" amount="2" />
+		</Supply>
+		<Board>
+			<tile type="White" x="0" y="7" />
+			<tile type="White" x="1" y="6" />
+			<tile type="White" x="3" y="6" />
+			<tile type="White" x="3" y="5" />
+			<tile type="Black" x="2" y="1" />
+			<tile type="Black" x="2" y="2" />
+			<tile type="Black" x="4" y="1" />
+			<tile type="Black" x="4" y="2" />
+			<tile type="Black" x="5" y="4" />
+		</Board>
+		<WinCondition>
+		</WinCondition>
+	</Level>
+	<Level lvlID="(16) Chess" sizex="6" sizey="6">
+		<Supply>
+			<tiles type="White" amount="1" />
+			<tiles type="Black" amount="3" />
 		</Supply>
 		<Board>
 			<tile type="Black" x="0" y="0" />
+			<tile type="Black" x="0" y="2" />
+			<tile type="Black" x="0" y="4" />
+			<tile type="Black" x="1" y="1" />
+			<tile type="Black" x="1" y="3" />
+			<tile type="Black" x="1" y="5" />
+			<tile type="Black" x="2" y="0" />
+			<tile type="Black" x="2" y="2" />
+			<tile type="Black" x="2" y="4" />
+			<tile type="Black" x="4" y="0" />
+			<tile type="Black" x="4" y="2" />
+			<tile type="Black" x="4" y="4" />
+			<tile type="Black" x="3" y="1" />
 			<tile type="Black" x="3" y="3" />
-			<tile type="Black" x="3" y="4" /> 
-			<tile type="Black" x="4" y="5" /> 
-			<tile type="Black" x="4" y="6" /> 
-			<tile type="Black" x="5" y="7" /> 
-			<tile type="Black" x="5" y="8" /> 
+			<tile type="Black" x="3" y="5" />
+			<tile type="Black" x="5" y="1" />
+			<tile type="Black" x="5" y="3" />
+			<tile type="Black" x="5" y="5" />
 		</Board>
 		<WinCondition>
 		</WinCondition>
-	</Level>
-	<Level lvlID="Level6" sizex="5" sizey="5">
+	</Level>	
+	<Level lvlID="(*) Playground" sizex="9" sizey="9">
 		<Supply>
-			<tiles type="Black" amount="2" />
+			<tiles type="Black" amount="50" />
+			<tiles type="White" amount="50" />
 		</Supply>
 		<Board>
-			<tile type="Black" x="2" y="3" />
-			<tile type="Black" x="3" y="0" />
-			<tile type="Black" x="1" y="0" /> 
+			<tile type="White" x="0" y="0" />
 		</Board>
 		<WinCondition>
 		</WinCondition>

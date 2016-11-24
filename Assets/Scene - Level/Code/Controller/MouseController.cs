@@ -56,6 +56,8 @@ public class MouseController : MonoBehaviour
         }
         if (Input.GetMouseButtonDown(1))
             WorldController.Instance.SwitchSelectedTile();
+        if (Input.GetMouseButtonDown(2))
+            WorldController.Instance.Restart();
     }
 
     void UpdateCursor()

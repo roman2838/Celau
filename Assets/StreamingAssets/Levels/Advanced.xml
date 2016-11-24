@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<Levels>
+	<Level lvlID="(T) What's black?" sizex="9" sizey="9">
+		<Supply>
+			<tiles type="Black" amount="100" />
+		</Supply>
+		<Board>
+			<tile type="Black" x="4" y="1" />
+		</Board>
+		<WinCondition>
+		</WinCondition>
+	</Level>
+	<Level lvlID="(1) Basic Training" sizex="4" sizey="4">
+		<Supply>
+			<tiles type="Black" amount="2" />
+		</Supply>
+		<Board>
+			<tile type="Black" x="0" y="0" />
+			<tile type="Black" x="0" y="1" />
+		</Board>
+		<WinCondition>
+		</WinCondition>
+	</Level>
+	<Level lvlID="(2) Rocket Science" sizex="5" sizey="5">
+		<Supply>
+			<tiles type="Black" amount="2" />
+		</Supply>
+		<Board>
+			<tile type="Black" x="2" y="3" />
+			<tile type="Black" x="3" y="0" />
+			<tile type="Black" x="1" y="0" /> 
+		</Board>
+		<WinCondition>
+		</WinCondition>
+	</Level>
+</Levels>	

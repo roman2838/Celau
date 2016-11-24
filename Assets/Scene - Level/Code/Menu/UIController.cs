@@ -53,11 +53,7 @@ public class UIController : MonoBehaviour {
 
     public void UpdateMoves(int[] i)
     {
-        Debug.Log(i);
-        for (int j = 0; j < 2; j++)
-        {
-            Debug.Log(j + " : " + i[j]);
-        }
+
         MoveCounter.GetComponent<Text>().text = "Moves: \n"+
                                                 "Black: " + i[0].ToString() + "\n"+
                                                 "<color=yellow>Yellow: " + i[1].ToString() + "</color>\n"+
@@ -66,11 +62,9 @@ public class UIController : MonoBehaviour {
 
     public void UpdateHighlight(ActiveTile.type selection)
     {
-        Debug.Log((int)selection);
         //Vector3 pos = Highlight.GetComponent<RectTransform>().position;
         //pos.y -=  ((int)selection-(int)oldselection)*15;
         RectTransform parent = Highlight.transform.parent.gameObject.GetComponent<RectTransform>();
-        Debug.Log(parent == Highlight.GetComponent<RectTransform>());
         Vector3[] corner = new Vector3[4];
         parent.GetWorldCorners(corner);
         //foreach (Vector3 i in corner)
@@ -79,8 +73,6 @@ public class UIController : MonoBehaviour {
 
 
         //pos.y = -15 - (int)selection * 15;
-        Debug.Log(pos.y);
         Highlight.GetComponent<RectTransform>().position = pos;
-        Debug.Log(Highlight.GetComponent<RectTransform>().position);
     }
 }

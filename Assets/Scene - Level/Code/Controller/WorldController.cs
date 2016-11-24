@@ -52,8 +52,6 @@ public class WorldController : MonoBehaviour {
         // Place initial blocks
         GenerateLevel();
         if (moves[(int)selectedtile] == 0)
-            Debug.Log("Before Switching Highlighter:");
-            Debug.Log(moves.Length);
             SwitchSelectedTile();
     }
 
@@ -105,12 +103,10 @@ public class WorldController : MonoBehaviour {
                 }
                 
             }
-        Debug.Log("Level.moves.Length:" + lvl.moves.Length);
         moves = new int[lvl.moves.Length];
         for (int i = 0; i < lvl.moves.Length; i++)
         {
             moves[i] = lvl.moves[i];
-            Debug.Log(i + " : " + lvl.moves[i]);
         }
         UI.UpdateMoves(moves);
     }
@@ -187,7 +183,6 @@ public class WorldController : MonoBehaviour {
         int totalmoves = 0;
         foreach (int i in moves)
             totalmoves += i;
-        Debug.Log(totalmoves);
         UI.UpdateMoves(moves);
         if (activetiles.Count == 0)
         {
