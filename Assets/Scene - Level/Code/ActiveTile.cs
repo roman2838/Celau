@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class ActiveTile : Tile
 {
-    public enum type { Black, Yellow, White};
+    public enum type { Black, White, Yellow, Blue};
     private BackgroundTile parent;
     public type Type;
 
@@ -133,6 +133,33 @@ public class ActiveTile : Tile
                         if (parent.GetNeighbor("West") != null && parent.GetNeighbor("West").GetChild() == null)
                             WorldController.Instance.cdqueue += parent.GetNeighbor("West").CreateWhiteChild;
                         WorldController.Instance.updateneeded = true;
+                    }
+                break;
+            case type.Yellow:
+                if(parent.GetNeighbor("East") != null && parent.GetNeighbor("East").GetNeighbor("North") != null)
+                    if(parent.GetNeighbor("East").GetNeighbor("North").GetChild() != null && parent.GetNeighbor("East").GetNeighbor("North").GetChild().Type == type.Yellow)
+                    {
+                        WorldController.Instance.cdqueue += parent.GetNeighbor("East").GetNeighbor("North").DestroyChild;
+                        if (parent.GetNeighbor("West") != null && parent.GetNeighbor("West").GetNeighbor("North") != null)
+                            if(parent.GetNeighbor("West").GetNeighbor("North").GetChild() == null)
+                                WorldController.Instance.cdqueue += parent.GetNeighbor("West").GetNeighbor("North").CreateYellowChild;
+                        WorldController.Instance.updateneeded = true;
+                    }
+                if(parent.GetNeighbor("North") != null && parent.GetNeighbor("North").GetChild() != null)
+                    if(parent.GetNeighbor("North").GetChild().Type == type.Yellow)
+                    {
+                        WorldController.Instance.cdqueue += parent.GetNeighbor("North").DestroyChild;
+                        WorldController.Instance.cdqueue += parent.DestroyChild;
+                        WorldController.Instance.updateneeded = true;
+                        if (parent.GetNeighbor("South") != null)
+                        {
+                            if (parent.GetNeighbor("South").GetChild() == null)
+                                WorldController.Instance.cdqueue += parent.GetNeighbor("South").CreateYellowChild;
+                            if (parent.GetNeighbor("South").GetNeighbor("West") != null)
+                                if (parent.GetNeighbor("South").GetNeighbor("West").GetChild() == null)
+                                    WorldController.Instance.cdqueue += parent.GetNeighbor("South").GetNeighbor("West").CreateYellowChild;
+                        }
+
                     }
                 break;
         }

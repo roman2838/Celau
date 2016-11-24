@@ -88,6 +88,7 @@ public class WorldController : MonoBehaviour {
 
     private void GenerateLevel()
     {
+        Debug.Log(lvl.leveldata);
         if(lvl.leveldata != null)
             foreach (var tile in lvl.leveldata)
             {
@@ -100,14 +101,21 @@ public class WorldController : MonoBehaviour {
                     case ActiveTile.type.White:
                         GetTileAt(tile.x, tile.y).CreateWhiteChild();
                         break;
+                    case ActiveTile.type.Yellow:
+                        GetTileAt(tile.x, tile.y).CreateYellowChild();
+                        break;
+                    case ActiveTile.type.Blue:
+                        GetTileAt(tile.x, tile.y).CreateBlueChild();
+                        break;
                 }
                 
             }
-        moves = new int[lvl.moves.Length];
+        moves = new int[4];
         for (int i = 0; i < lvl.moves.Length; i++)
         {
             moves[i] = lvl.moves[i];
         }
+        Debug.Log("Update moves in GenerateLevel()");
         UI.UpdateMoves(moves);
     }
 	
@@ -183,6 +191,7 @@ public class WorldController : MonoBehaviour {
         int totalmoves = 0;
         foreach (int i in moves)
             totalmoves += i;
+        Debug.Log("Update moves in CheckWinCondition");
         UI.UpdateMoves(moves);
         if (activetiles.Count == 0)
         {
@@ -212,9 +221,13 @@ public class WorldController : MonoBehaviour {
                     WorldController.Instance.moves[(int)ActiveTile.type.White]--;
                     StartCoroutine(WorldController.Instance.UpdateTiles());
                     break;
+                case ActiveTile.type.Yellow:
+                    tile.CreateYellowChild();
+                    WorldController.Instance.moves[(int)ActiveTile.type.Yellow]--;
+                    StartCoroutine(WorldController.Instance.UpdateTiles());
+                    break;
             }
         }
-        else Debug.Log("Out of boundaries");
     }
 
     public void SwitchSelectedTile()

@@ -27,19 +27,25 @@ public class Levelselection : MonoBehaviour {
         }
         else
         {
-            string filepath = System.IO.Path.Combine(Application.streamingAssetsPath, "Levels");
-            lvls = System.IO.Directory.GetFiles(filepath, "*.xml");
-            SelectLevelFile(lvls);
-            foreach(string s in lvls)
+            if (PlayerPrefs.GetString("LevelFile") == String.Empty)
             {
-                Debug.Log(s);
+                Debug.Log("Start LevelPack" + PlayerPrefs.GetString("LevelFile"));
+                string filepath = System.IO.Path.Combine(Application.streamingAssetsPath, "Levels");
+                lvls = System.IO.Directory.GetFiles(filepath, "*.xml");
+                SelectLevelFile(lvls);
             }
-            filepath = System.IO.Path.Combine(filepath, "Basic.xml");
-            lvlsxml = System.IO.File.ReadAllText(filepath);
+            else
+            {
+                Debug.Log("Select Level Pack");
+                Debug.Log(PlayerPrefs.GetString("LevelFile"));
+                SelectLevelPack(PlayerPrefs.GetString("LevelFile"));
+            }
+            //filepath = System.IO.Path.Combine(filepath, "Basic.xml");
+            //lvlsxml = System.IO.File.ReadAllText(filepath);
         }
         // Setup XML Reader
-        System.IO.TextReader treader = new System.IO.StringReader(lvlsxml);
-        XmlTextReader xreader = new XmlTextReader(treader);
+        //System.IO.TextReader treader = new System.IO.StringReader(lvlsxml);
+        //XmlTextReader xreader = new XmlTextReader(treader);
 
 //        PopulateMenues(xreader);
     }
@@ -75,19 +81,19 @@ public class Levelselection : MonoBehaviour {
 
     private void SelectLevelPack(string s)
     {
+        PlayerPrefs.SetString("LevelFile", s);
+        Debug.Log("Set Playerprefs to" + s);
         string filepath = System.IO.Path.Combine(Application.streamingAssetsPath, "Levels");
-        filepath = System.IO.Path.Combine(filepath, "Basic.xml");
+        Debug.Log("create Filepath: "+filepath);
+        filepath = System.IO.Path.Combine(filepath, s);
+        Debug.Log("create Filepath: " + filepath);
         string lvlsxml = System.IO.File.ReadAllText(filepath);
-    
+        Debug.Log("Read all text");
         // Setup XML Reader
         System.IO.TextReader treader = new System.IO.StringReader(lvlsxml);
         XmlTextReader xreader = new XmlTextReader(treader);
-        foreach(GameObject b in buttons)
-        {
-            Debug.Log(b);
-            Destroy(b);
-        }
 
+        DestroyAllButtons();
         PopulateMenues(xreader);
 }
 
@@ -153,8 +159,25 @@ public void StartLevel(string s)
 
             b.onClick.AddListener(delegate { StartLevel(go.transform.GetComponentInChildren<Text>().text); });
             b.interactable = true;
+            buttons.Add(go);
         }
     }
+    }
+
+    public void ChangeLevelPack()
+    {
+        PlayerPrefs.SetString("LevelFile", "");
+        DestroyAllButtons();
+        Start();
+    }
+
+    void DestroyAllButtons()
+    {
+        foreach (GameObject b in buttons)
+        {
+            Debug.Log(b);
+            Destroy(b);
+        }
     }
 
     // Update is called once per frame

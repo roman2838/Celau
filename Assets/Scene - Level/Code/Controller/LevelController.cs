@@ -26,7 +26,7 @@ public class LevelController{
         {
             // Find Levels XML file in filesystem
             string filepath = System.IO.Path.Combine(Application.streamingAssetsPath, "Levels");
-            filepath = System.IO.Path.Combine(filepath, "Basic.xml");
+            filepath = System.IO.Path.Combine(filepath, PlayerPrefs.GetString("LevelFile"));
             lvlsxml = System.IO.File.ReadAllText(filepath);
         }
         // Setup XML Reader
@@ -75,17 +75,22 @@ public class LevelController{
 
                 else if (xreader.GetAttribute("type") == "White")
                     supply.Add(ActiveTile.type.White, System.Int32.Parse(xreader.GetAttribute("amount")));
+                else if (xreader.GetAttribute("type") == "Blue")
+                    supply.Add(ActiveTile.type.Blue, System.Int32.Parse(xreader.GetAttribute("amount")));
             }
             
         }
-        moves = new int[3] { 0, 0, 0 };
+        //FIXME: This size shouldn't be fixed!
+        moves = new int[4] { 0, 0, 0, 0};
 
         if (supply.ContainsKey(ActiveTile.type.Black))
-            moves[0] = supply[ActiveTile.type.Black];
+            moves[(int)ActiveTile.type.Black] = supply[ActiveTile.type.Black];
         if (supply.ContainsKey(ActiveTile.type.Yellow))
-            moves[1] = supply[ActiveTile.type.Yellow];
+            moves[(int)ActiveTile.type.Yellow] = supply[ActiveTile.type.Yellow];
         if (supply.ContainsKey(ActiveTile.type.White))
-            moves[2] = supply[ActiveTile.type.White];
+            moves[(int)ActiveTile.type.White] = supply[ActiveTile.type.White];
+        if (supply.ContainsKey(ActiveTile.type.Blue))
+            moves[(int)ActiveTile.type.Blue] = supply[ActiveTile.type.Blue];
     }
 
     private void GenerateBoardData(XmlReader xreader)
@@ -99,7 +104,11 @@ public class LevelController{
             }
 
         }
+
         leveldata = tmp.ToArray();
+        Debug.Log("leveldata in lvl");
+        foreach (var i in leveldata)
+            Debug.Log(i);
     }
 
 

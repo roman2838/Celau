@@ -54,10 +54,11 @@ public class UIController : MonoBehaviour {
     public void UpdateMoves(int[] i)
     {
 
-        MoveCounter.GetComponent<Text>().text = "Moves: \n"+
-                                                "Black: " + i[0].ToString() + "\n"+
-                                                "<color=yellow>Yellow: " + i[1].ToString() + "</color>\n"+
-                                                "<color=white>White: " + i[2].ToString() + "</color>";
+        MoveCounter.GetComponent<Text>().text = "Moves: \n" +
+                                                "Black: " + i[(int)ActiveTile.type.Black].ToString() + "\n" +
+                                                "<color=white>White: " + i[(int)ActiveTile.type.White].ToString() + "</color>\n" +
+                                                "<color=yellow>Yellow: " + i[(int)ActiveTile.type.Yellow].ToString() + "</color>\n"+
+                                                "<color=blue>Blue: " + i[(int)ActiveTile.type.Blue].ToString() + "</color>";
     }
 
     public void UpdateHighlight(ActiveTile.type selection)

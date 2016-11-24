@@ -70,11 +70,12 @@ public class MouseController : MonoBehaviour
         }
         else
         {
-            if (WorldController.Instance.selectedtile == ActiveTile.type.Black)
-                //hover.GetComponent<MeshRenderer>().material.color = Color.green;
-                rend.sharedMaterial = materials[1];
-            else if (WorldController.Instance.selectedtile == ActiveTile.type.White)
-                rend.sharedMaterial = materials[2];
+            //if (WorldController.Instance.selectedtile == ActiveTile.type.Black)
+            //    //hover.GetComponent<MeshRenderer>().material.color = Color.green;
+            //    rend.sharedMaterial = materials[1];
+            //else if (WorldController.Instance.selectedtile == ActiveTile.type.White)
+            //    rend.sharedMaterial = materials[2];
+            rend.sharedMaterial = materials[(int)WorldController.Instance.selectedtile +1];
         }  
     }
 }

@@ -1,11 +1,12 @@
 <?xml version="1.0"?>
 <Levels>
-	<Level lvlID="(T) What's black?" sizex="9" sizey="9">
+	<Level lvlID="(T) What's Yellow?" sizex="9" sizey="9">
 		<Supply>
+			<tiles type="Yellow" amount="100" />
 			<tiles type="Black" amount="100" />
 		</Supply>
 		<Board>
-			<tile type="Black" x="4" y="1" />
+			<tile type="Yellow" x="4" y="1" />
 		</Board>
 		<WinCondition>
 		</WinCondition>

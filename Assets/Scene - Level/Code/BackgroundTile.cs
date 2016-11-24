@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System;
 
 public class BackgroundTile : Tile {
     protected Dictionary<string, BackgroundTile> neighbors =
@@ -86,7 +87,18 @@ public class BackgroundTile : Tile {
             WorldController.Instance.RegisterTile(Child);
         }
     }
-
+    internal void CreateYellowChild()
+    {
+        if (Child != null)
+        {
+            return;
+        }
+        else
+        {
+            Child = new ActiveTile(this, X, Y, ActiveTile.type.Yellow);
+            WorldController.Instance.RegisterTile(Child);
+        }
+    }
 
     public void DestroyChild()
     {
@@ -105,5 +117,9 @@ public class BackgroundTile : Tile {
     {
         return Child;
     }
-    
+
+    internal void CreateBlueChild()
+    {
+        throw new NotImplementedException();
+    }
 }
