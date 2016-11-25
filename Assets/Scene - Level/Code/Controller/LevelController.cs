@@ -106,9 +106,6 @@ public class LevelController{
         }
 
         leveldata = tmp.ToArray();
-        Debug.Log("leveldata in lvl");
-        foreach (var i in leveldata)
-            Debug.Log(i);
     }
 
 

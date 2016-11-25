@@ -136,31 +136,75 @@ public class ActiveTile : Tile
                     }
                 break;
             case type.Yellow:
-                if(parent.GetNeighbor("East") != null && parent.GetNeighbor("East").GetNeighbor("North") != null)
-                    if(parent.GetNeighbor("East").GetNeighbor("North").GetChild() != null && parent.GetNeighbor("East").GetNeighbor("North").GetChild().Type == type.Yellow)
+                // Has southern neighbor that is Yellow
+                if(parent.GetNeighbor("South") != null)
+                    if(parent.GetNeighbor("South").GetChild() != null && parent.GetNeighbor("South").GetChild().Type == type.Yellow)
                     {
-                        WorldController.Instance.cdqueue += parent.GetNeighbor("East").GetNeighbor("North").DestroyChild;
-                        if (parent.GetNeighbor("West") != null && parent.GetNeighbor("West").GetNeighbor("North") != null)
-                            if(parent.GetNeighbor("West").GetNeighbor("North").GetChild() == null)
-                                WorldController.Instance.cdqueue += parent.GetNeighbor("West").GetNeighbor("North").CreateYellowChild;
-                        WorldController.Instance.updateneeded = true;
-                    }
-                if(parent.GetNeighbor("North") != null && parent.GetNeighbor("North").GetChild() != null)
-                    if(parent.GetNeighbor("North").GetChild().Type == type.Yellow)
-                    {
-                        WorldController.Instance.cdqueue += parent.GetNeighbor("North").DestroyChild;
+                        if (parent.GetNeighbor("North") != null)
+                        {
+                            if (parent.GetNeighbor("North").GetChild() == null)
+                                WorldController.Instance.cdqueue += parent.GetNeighbor("North").CreateYellowChild;
+                            if (parent.GetNeighbor("North").GetNeighbor("West") != null)
+                                if (parent.GetNeighbor("North").GetNeighbor("West").GetChild() == null)
+                                    WorldController.Instance.cdqueue += parent.GetNeighbor("North").GetNeighbor("West").CreateYellowChild;
+                        }
+                        WorldController.Instance.cdqueue += parent.GetNeighbor("South").DestroyChild;
                         WorldController.Instance.cdqueue += parent.DestroyChild;
                         WorldController.Instance.updateneeded = true;
-                        if (parent.GetNeighbor("South") != null)
-                        {
-                            if (parent.GetNeighbor("South").GetChild() == null)
-                                WorldController.Instance.cdqueue += parent.GetNeighbor("South").CreateYellowChild;
-                            if (parent.GetNeighbor("South").GetNeighbor("West") != null)
-                                if (parent.GetNeighbor("South").GetNeighbor("West").GetChild() == null)
-                                    WorldController.Instance.cdqueue += parent.GetNeighbor("South").GetNeighbor("West").CreateYellowChild;
-                        }
+                    }
+                // Has southeastern Yellow neighbor?
+                if(parent.GetNeighbor("South") != null && parent.GetNeighbor("South").GetNeighbor("East") != null)
+                    if(parent.GetNeighbor("South").GetNeighbor("East").GetChild() != null && parent.GetNeighbor("South").GetNeighbor("East").GetChild().Type == type.Black)
+                    {
+                        if (parent.GetNeighbor("South").GetNeighbor("West") != null)
+                            if(parent.GetNeighbor("South").GetNeighbor("West").GetChild() == null)
+                                WorldController.Instance.cdqueue += parent.GetNeighbor("South").GetNeighbor("West").CreateYellowChild;
+                        WorldController.Instance.cdqueue += parent.GetNeighbor("South").GetNeighbor("East").DestroyChild;
+                        WorldController.Instance.cdqueue += parent.DestroyChild;
+                        WorldController.Instance.cdqueue += parent.CreateBlackChild;
+                        WorldController.Instance.updateneeded = true;
 
                     }
+
+                //Has Southwestern white neighbor
+                if (parent.GetNeighbor("South") != null && parent.GetNeighbor("South").GetNeighbor("West") != null)
+                    if (parent.GetNeighbor("South").GetNeighbor("West").GetChild() != null && parent.GetNeighbor("South").GetNeighbor("West").GetChild().Type == type.White)
+                    {
+                        if (parent.GetNeighbor("South").GetNeighbor("East") != null)
+                            if (parent.GetNeighbor("South").GetNeighbor("East").GetChild() == null)
+                                WorldController.Instance.cdqueue += parent.GetNeighbor("South").GetNeighbor("East").CreateYellowChild;
+                        WorldController.Instance.cdqueue += parent.GetNeighbor("South").GetNeighbor("West").DestroyChild;
+                        WorldController.Instance.cdqueue += parent.DestroyChild;
+                        WorldController.Instance.cdqueue += parent.CreateWhiteChild;
+                        WorldController.Instance.updateneeded = true;
+                    }
+
+                // OLD YELLOW LOGIC
+                //if(parent.GetNeighbor("East") != null && parent.GetNeighbor("East").GetNeighbor("North") != null)
+                //    if(parent.GetNeighbor("East").GetNeighbor("North").GetChild() != null && parent.GetNeighbor("East").GetNeighbor("North").GetChild().Type == type.Yellow)
+                //    {
+                //        WorldController.Instance.cdqueue += parent.GetNeighbor("East").GetNeighbor("North").DestroyChild;
+                //        if (parent.GetNeighbor("West") != null && parent.GetNeighbor("West").GetNeighbor("North") != null)
+                //            if(parent.GetNeighbor("West").GetNeighbor("North").GetChild() == null)
+                //                WorldController.Instance.cdqueue += parent.GetNeighbor("West").GetNeighbor("North").CreateYellowChild;
+                //        WorldController.Instance.updateneeded = true;
+                //    }
+                //if(parent.GetNeighbor("North") != null && parent.GetNeighbor("North").GetChild() != null)
+                //    if(parent.GetNeighbor("North").GetChild().Type == type.Yellow)
+                //    {
+                //        WorldController.Instance.cdqueue += parent.GetNeighbor("North").DestroyChild;
+                //        WorldController.Instance.cdqueue += parent.DestroyChild;
+                //        WorldController.Instance.updateneeded = true;
+                //        if (parent.GetNeighbor("South") != null)
+                //        {
+                //            if (parent.GetNeighbor("South").GetChild() == null)
+                //                WorldController.Instance.cdqueue += parent.GetNeighbor("South").CreateYellowChild;
+                //            if (parent.GetNeighbor("South").GetNeighbor("West") != null)
+                //                if (parent.GetNeighbor("South").GetNeighbor("West").GetChild() == null)
+                //                    WorldController.Instance.cdqueue += parent.GetNeighbor("South").GetNeighbor("West").CreateYellowChild;
+                //        }
+
+                //    }
                 break;
         }
     }

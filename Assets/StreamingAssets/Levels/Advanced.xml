@@ -4,6 +4,7 @@
 		<Supply>
 			<tiles type="Yellow" amount="100" />
 			<tiles type="Black" amount="100" />
+			<tiles type="White" amount="100" />
 		</Supply>
 		<Board>
 			<tile type="Yellow" x="4" y="1" />

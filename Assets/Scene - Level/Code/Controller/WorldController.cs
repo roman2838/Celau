@@ -88,7 +88,6 @@ public class WorldController : MonoBehaviour {
 
     private void GenerateLevel()
     {
-        Debug.Log(lvl.leveldata);
         if(lvl.leveldata != null)
             foreach (var tile in lvl.leveldata)
             {
@@ -115,7 +114,6 @@ public class WorldController : MonoBehaviour {
         {
             moves[i] = lvl.moves[i];
         }
-        Debug.Log("Update moves in GenerateLevel()");
         UI.UpdateMoves(moves);
     }
 	
@@ -191,7 +189,6 @@ public class WorldController : MonoBehaviour {
         int totalmoves = 0;
         foreach (int i in moves)
             totalmoves += i;
-        Debug.Log("Update moves in CheckWinCondition");
         UI.UpdateMoves(moves);
         if (activetiles.Count == 0)
         {
