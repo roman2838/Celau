@@ -12,25 +12,75 @@
 		<WinCondition>
 		</WinCondition>
 	</Level>
-	<Level lvlID="(1) Basic Training" sizex="4" sizey="4">
+		<Level lvlID="(1) Rocket Science 2.0" sizex="5" sizey="4">
 		<Supply>
-			<tiles type="Black" amount="2" />
+			<tiles type="Yellow" amount="2" />
 		</Supply>
 		<Board>
-			<tile type="Black" x="0" y="0" />
-			<tile type="Black" x="0" y="1" />
+			<tile type="Yellow" x="1" y="0" />
+			<tile type="Yellow" x="3" y="0" />
+			<tile type="Yellow" x="2" y="3" />
 		</Board>
 		<WinCondition>
 		</WinCondition>
 	</Level>
-	<Level lvlID="(2) Rocket Science" sizex="5" sizey="5">
+	<Level lvlID="(2) Dot, dot, dot" sizex="5" sizey="6">
 		<Supply>
-			<tiles type="Black" amount="2" />
+			<tiles type="Yellow" amount="3" />
 		</Supply>
 		<Board>
-			<tile type="Black" x="2" y="3" />
-			<tile type="Black" x="3" y="0" />
-			<tile type="Black" x="1" y="0" /> 
+			<tile type="Yellow" x="2" y="1" />
+			<tile type="Yellow" x="2" y="3" />
+			<tile type="Yellow" x="2" y="5" />
+
+		</Board>
+		<WinCondition>
+		</WinCondition>
+	</Level>
+	<Level lvlID="(3) Be tricky!" sizex="5" sizey="5">
+		<Supply>
+			<tiles type="Yellow" amount="2" />
+		</Supply>
+		<Board>
+			<tile type="Yellow" x="1" y="1" />
+			<tile type="Yellow" x="2" y="2" />
+			<tile type="Yellow" x="3" y="1" /> 
+		</Board>
+		<WinCondition>
+		</WinCondition>
+	</Level>
+		<Level lvlID="(4) Broken Horseshoe" sizex="5" sizey="5">
+		<Supply>
+			<tiles type="Yellow" amount="2" />
+		</Supply>
+		<Board>
+			<tile type="Yellow" x="2" y="1" />
+			<tile type="Yellow" x="3" y="2" />
+			<tile type="Yellow" x="2" y="3" /> 
+			<tile type="Yellow" x="1" y="3" /> 
+		</Board>
+		<WinCondition>
+		</WinCondition>
+	</Level>
+	<Level lvlID="(5) Looks Familiar?" sizex="5" sizey="6">
+		<Supply>
+			<tiles type="Yellow" amount="3" />
+		</Supply>
+		<Board>
+			<tile type="Yellow" x="2" y="1" />
+			<tile type="Yellow" x="1" y="4" />
+		</Board>
+		<WinCondition>
+		</WinCondition>
+	</Level>
+	<Level lvlID="(T) Yellow/Black" sizex="9" sizey="9">
+		<Supply>
+			<tiles type="Yellow" amount="50" />
+			<tiles type="Black" amount="50" />
+		</Supply>
+		<Board>
+			<tile type="Yellow" x="3" y="1" />
+			<tile type="Black" x="5" y="1" />
 		</Board>
 		<WinCondition>
 		</WinCondition>

@@ -11,6 +11,7 @@ public class Levelselection : MonoBehaviour {
     List<GameObject> buttons;
     public GameObject buttonprefab;
     public GameObject canvas;
+    public Sprite[] textures;
     
 	// Use this for initialization
 	void Start ()
@@ -130,13 +131,13 @@ public void StartLevel(string s)
             // Choose a color according to lvldata
             if (s.Contains("(T)"))
             {
-                b.image.color = Color.green;
+                    b.image.color = Color.green;// overrideSprite = textures[5];
                 i = 0;
                 j -= 1;
             }
             else if (lvl.moves[(int)ActiveTile.type.Black] > 0)
             {
-                b.image.color = Color.black;
+                    b.image.color = Color.black;//overrideSprite = textures[0];
                 if (lvl.moves[(int)ActiveTile.type.White] > 0)
                     b.image.color = Color.grey;
             }
