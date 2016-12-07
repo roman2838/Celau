@@ -73,6 +73,19 @@
 		<WinCondition>
 		</WinCondition>
 	</Level>
+	<Level lvlID="(6) Looks Familiar?" sizex="5" sizey="5">
+		<Supply>
+			<tiles type="Yellow" amount="2" />
+		</Supply>
+		<Board>
+			<tile type="Yellow" x="1" y="1" />
+			<tile type="Yellow" x="3" y="1" />
+			<tile type="Yellow" x="3" y="4" />
+			<tile type="Yellow" x="2" y="4" />
+		</Board>
+		<WinCondition>
+		</WinCondition>
+	</Level>
 	<Level lvlID="(T) Yellow/Black" sizex="9" sizey="9">
 		<Supply>
 			<tiles type="Yellow" amount="50" />
