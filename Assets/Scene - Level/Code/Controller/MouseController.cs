@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
 public class MouseController : MonoBehaviour
 {
@@ -7,12 +8,17 @@ public class MouseController : MonoBehaviour
     private LevelController lvl;
     public Material[] materials;
     public Renderer rend;
+    private bool hasMoved = false;
     
     //    public Object marker;
 
     // The world-position of the mouse last frame.
-    Vector3 lastFramePosition;
-    Vector3 currFramePosition;
+    Vector3 lastFrameWorldPosition;
+    Vector3 currFrameWorldPosition;
+
+    Vector3 currFrameScreenPosition;
+    Vector3 lastFrameScreenPosition;
+
 
     // Use this for initialization
 
@@ -24,8 +30,8 @@ public class MouseController : MonoBehaviour
         if (WorldController.Instance != null)
             if(WorldController.Instance.lvl != null)
                 lvl = WorldController.Instance.lvl;
-        currFramePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        currFramePosition.z = .5f;
+        currFrameWorldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        currFrameWorldPosition.z = .5f;
     }
 
     // Update is called once per frame
@@ -35,24 +41,31 @@ public class MouseController : MonoBehaviour
             lvl = WorldController.Instance.lvl;
         //       currFramePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         //        currFramePosition.z = .5f;
+
+        currFrameScreenPosition = Input.mousePosition;
+
         // Do a raycast to find position on field
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        currFramePosition = ray.origin - (ray.origin.z / ray.direction.z) * ray.direction;
-        currFramePosition.z = .5f;
+        currFrameWorldPosition = ray.origin - (ray.origin.z / ray.direction.z) * ray.direction;
+        currFrameWorldPosition.z = .5f;
 
         UpdateCursor();
+        UpdateMovement();
 
-        lastFramePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        lastFramePosition.z = .5f;
+        lastFrameWorldPosition = Input.mousePosition;
+        lastFrameWorldPosition.z = .5f;
+
+        lastFrameScreenPosition = currFrameScreenPosition;
         // Press left mouse button
         // TODO: Probably move this code to another controller to enable different interfaces
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonUp(0))
         {
-            if (WorldController.Instance.locked == false)
+            if (WorldController.Instance.locked == false && hasMoved == false)
             {
-                Vector3 Absoluteposition = new Vector3(Mathf.Round(currFramePosition.x), Mathf.Round(currFramePosition.y), .5f);
+                Vector3 Absoluteposition = new Vector3(Mathf.Round(currFrameWorldPosition.x), Mathf.Round(currFrameWorldPosition.y), .5f);
                 WorldController.Instance.OnAction((int)Absoluteposition.x, (int)Absoluteposition.y);
             }
+            hasMoved = false;
         }
         if (Input.GetMouseButtonDown(1))
             WorldController.Instance.SwitchSelectedTile();
@@ -60,9 +73,23 @@ public class MouseController : MonoBehaviour
             WorldController.Instance.Restart();
     }
 
+    private void UpdateMovement()
+    {
+        if (Input.GetMouseButton(0))
+        {  
+            
+            Vector3 diff = lastFrameScreenPosition - currFrameScreenPosition;
+            Camera.main.transform.Translate(diff/50);
+            if(diff != Vector3.zero)
+            {
+                hasMoved = true;
+            }
+        }
+    }
+
     void UpdateCursor()
     {
-         hover.transform.position = new Vector3(Mathf.Round(currFramePosition.x), Mathf.Round(currFramePosition.y), .5f);
+         hover.transform.position = new Vector3(Mathf.Round(currFrameWorldPosition.x), Mathf.Round(currFrameWorldPosition.y), .5f);
         if (WorldController.Instance.locked)
         {
             //            hover.GetComponent<MeshRenderer>().material.color = Color.red;
@@ -75,7 +102,7 @@ public class MouseController : MonoBehaviour
             //    rend.sharedMaterial = materials[1];
             //else if (WorldController.Instance.selectedtile == ActiveTile.type.White)
             //    rend.sharedMaterial = materials[2];
-            rend.sharedMaterial = materials[(int)WorldController.Instance.selectedtile +1];
+            rend.sharedMaterial = materials[(int)WorldController.map.selectedtile +1];
         }  
     }
 }

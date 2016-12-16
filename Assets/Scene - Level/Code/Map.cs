@@ -20,9 +20,19 @@ public class Map
 
     public void GenerateMap()
     {
-        // Place initial blocks
-
+        // Generate Background Tiles
+        for (int x = 0; x < map.Width; x++)
+        {
+            for (int y = 0; y < map.Height; y++)
+            {
+                Tile tile = map.GetTileAt(x, y);
+                tile.Sprite = (GameObject)GameObject.Instantiate(WorldController.Instance.BGTile, new Vector3(x, y, 0f) + origin, Quaternion.identity);
+            }
+        }
+        // Fill in ActiveTile from LevelData
         GenerateLevel();
+        // Set Cameraposition to center
+        Camera.main.transform.position = new Vector3(lvl.Height / 2 + origin.x , lvl.Width / 2 + origin.y , Camera.main.transform.position.z);
 
     }
 
@@ -33,19 +43,9 @@ public class Map
         //if (lvl == null)
         //    Debug.LogError("Level controller missing!");
         //Debug.Log("Created TileGenerator");
-        // Set Cameraposition to center
-        //Camera.main.transform.position = new Vector3(lvl.Height / 2, lvl.Width / 2, Camera.main.transform.position.z);
         // Draw the playing field
 
         // Generate Background Tiles
-        for (int x = 0; x < map.Width; x++)
-        {
-            for (int y = 0; y < map.Height; y++)
-            {
-                Tile tile = map.GetTileAt(x, y);
-                tile.Sprite = (GameObject)GameObject.Instantiate(WorldController.Instance.BGTile, new Vector3(x, y, 0f) + origin, Quaternion.identity);
-            }
-        }
 
         // Fill in ActiveTile from leveldata
         if (lvl.leveldata != null)

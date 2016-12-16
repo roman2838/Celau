@@ -15,11 +15,8 @@ public class WorldController : MonoBehaviour {
     private List<ActiveTile> activetiles = new List<ActiveTile>();              //List of active Tiles
     private List<GameObject> sprites = new List<GameObject>();                  // Manage Sprites
     public delegate void Del();
-    public int[] moves;
     public Del cdqueue;                                                         //Creation/Destruction queue
     public LevelController lvl;
-    public UIController UI;
-    public ActiveTile.type selectedtile;                                               // Current selection from supply
     public Vector3 Origin;
 
     // NEW CODE USING THE MAP CLASS
@@ -43,7 +40,7 @@ public class WorldController : MonoBehaviour {
         /**********************************/
         lvl = new LevelController(PlayerPrefs.GetString("currlvl"));
         map = new Map(lvl, Origin);
-        map.GenerateLevel();
+        map.GenerateMap();
         Debug.Log("We have a map now!");
         
         //                                        //
@@ -105,8 +102,6 @@ public class WorldController : MonoBehaviour {
         locked = false;
         map.UI.SetWLStatus();
         map.GenerateLevel();
-        Debug.Log(map.selectedtile);
-        Debug.Log(map.moves);
         if (map.moves[(int)map.selectedtile] == 0)
             SwitchSelectedTile();
 
@@ -116,7 +111,7 @@ public class WorldController : MonoBehaviour {
     {
         StartCoroutine(Instance.RestartRoutine());
     }
-
+    /*
     private void GenerateLevel()
     {
         if(lvl.leveldata != null)
@@ -147,7 +142,7 @@ public class WorldController : MonoBehaviour {
         }
         UI.UpdateMoves(moves);
     }
-	
+	*/
 	// Find the tile at position x,y
     public BackgroundTile GetTileAt(int x, int y)
     {
@@ -222,7 +217,6 @@ public class WorldController : MonoBehaviour {
     public void CheckWinCondition()
     {
         int totalmoves = 0;
-        Debug.Log(map.moves);
         foreach (int i in map.moves)
             totalmoves += i;
         map.UI.UpdateMoves(map.moves);
@@ -244,7 +238,7 @@ public class WorldController : MonoBehaviour {
         BackgroundTile tile = GetTileAt(localX,localY);
         if ((tile != null) && (tile.GetChild() == null) && map.moves[(int)map.selectedtile] > 0)
         {
-            switch (selectedtile)
+            switch (map.selectedtile)
             {
                 case ActiveTile.type.Black:                 
                         tile.CreateBlackChild();
@@ -268,12 +262,12 @@ public class WorldController : MonoBehaviour {
     public void SwitchSelectedTile()
     {
         int i = 0;
-        while (++i <= moves.Length)
+        while (++i <= map.moves.Length)
         {
-            if (moves[(((int)selectedtile + i) % moves.Length)] != 0)
+            if (map.moves[(((int)map.selectedtile + i) % map.moves.Length)] != 0)
             {
-                selectedtile = (ActiveTile.type)(((int)selectedtile + i) % moves.Length);
-                UI.UpdateHighlight(selectedtile);
+                map.selectedtile = (ActiveTile.type)(((int)map.selectedtile + i) % map.moves.Length);
+                map.UI.UpdateHighlight(map.selectedtile);
                 return;
             }
         }
