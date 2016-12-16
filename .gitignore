@@ -55,6 +55,14 @@ Temporary Items
 [Ll]ibrary/
 sysinfo.txt
 *.stackdump
+
+# ================= #
+# Asset store stuff #
+# ==================#
+
+Assets/Store/
+
+
  
 # ============================================= #
 # Visual Studio / MonoDevelop / Rider generated #
