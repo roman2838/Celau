@@ -11,7 +11,7 @@ public class WorldController : MonoBehaviour {
     public bool locked = false;                                                 // Accepts Input? Yes or no!
     public static WorldController Instance { get; protected set; }              //Make this WorldController instance publicly available
 
-    private TileGenerator map;                                                  //Create the map
+    private TileGenerator oldmap;                                                  //Create the map
     private List<ActiveTile> activetiles = new List<ActiveTile>();              //List of active Tiles
     private List<GameObject> sprites = new List<GameObject>();                  // Manage Sprites
     public delegate void Del();
@@ -20,12 +20,39 @@ public class WorldController : MonoBehaviour {
     public LevelController lvl;
     public UIController UI;
     public ActiveTile.type selectedtile;                                               // Current selection from supply
+    public Vector3 Origin;
+
+    // NEW CODE USING THE MAP CLASS
+    public static Map map;
 
 
     void Start() {
+        //TODO: Remove Physics completely?
+        Physics.gravity = new Vector3(0f, 0f, -9.81f);                          // Set Gravity in z-direction
+
+        // Make this accessible via WorldController.Instance
+        if (Instance != null)
+        {
+            Debug.LogError("There should never be two world controllers.");
+        }
+        Instance = this;                                                        // instantiate Worldcontroller
+
+
+        /**********************************
+        / New Code using the map class    *        
+        /**********************************/
+        lvl = new LevelController(PlayerPrefs.GetString("currlvl"));
+        map = new Map(lvl, Origin);
+        map.GenerateLevel();
+        Debug.Log("We have a map now!");
+        
+        //                                        //
+        // Old code that didn't use the map class //
+        //                                        //
+        /*
         UI = GameObject.Find("UI").GetComponent<UIController>();
         
-        Physics.gravity = new Vector3(0f, 0f, -9.81f);                          // Set Gravity in z-direction
+
         // Make this accessible via WorldController.Instance
         if (Instance != null)
         {
@@ -53,6 +80,8 @@ public class WorldController : MonoBehaviour {
         GenerateLevel();
         if (moves[(int)selectedtile] == 0)
             SwitchSelectedTile();
+
+    */
     }
 
     // Called on destraction of the Object
@@ -74,9 +103,11 @@ public class WorldController : MonoBehaviour {
         cdqueue = () => { };
         updateneeded = false;
         locked = false;
-        UI.SetWLStatus();
-        GenerateLevel();
-        if (moves[(int)selectedtile] == 0)
+        map.UI.SetWLStatus();
+        map.GenerateLevel();
+        Debug.Log(map.selectedtile);
+        Debug.Log(map.moves);
+        if (map.moves[(int)map.selectedtile] == 0)
             SwitchSelectedTile();
 
     }
@@ -120,17 +151,21 @@ public class WorldController : MonoBehaviour {
 	// Find the tile at position x,y
     public BackgroundTile GetTileAt(int x, int y)
     {
-        if (0 <= x && x < map.Width && 0 <= y && y < map.Height)
-        {
-            return map.GetTileAt(x, y);
-        }
-        else return null;
+        return map.GetTileAt(x, y);
+        
     }
 
     // Register tile to the ActiveTiles list and create the sprite
     public void RegisterTile(ActiveTile atile)
     {
-        atile.Sprite = (GameObject)Instantiate(ATiles[(int)atile.Type], new Vector3(atile.X, atile.Y, 3f), Quaternion.identity);
+        if (map == null)
+        {
+            Debug.Log("Map not found");
+            if (map.origin == null)
+                Debug.Log("No Origin");
+        }
+        
+        atile.Sprite = (GameObject)Instantiate(ATiles[(int)atile.Type],map.origin +  new Vector3(atile.X, atile.Y, 3f), Quaternion.identity);
         atile.Sprite.GetComponent<Rigidbody>().AddForce(0, 0, -1000f);
         activetiles.Add(atile);    
     }
@@ -187,40 +222,43 @@ public class WorldController : MonoBehaviour {
     public void CheckWinCondition()
     {
         int totalmoves = 0;
-        foreach (int i in moves)
+        Debug.Log(map.moves);
+        foreach (int i in map.moves)
             totalmoves += i;
-        UI.UpdateMoves(moves);
+        map.UI.UpdateMoves(map.moves);
         if (activetiles.Count == 0)
         {
-            UI.SetWLStatus(true, activetiles.Count);
+            map.UI.SetWLStatus(true, activetiles.Count);
         }
         else if (totalmoves == 0)
-            UI.SetWLStatus(false, activetiles.Count);
+            map.UI.SetWLStatus(false, activetiles.Count);
         else locked = false;
     }
     
 
     public void OnAction(int x, int y)
     {
+        int localX = x - (int)map.origin.x;
+        int localY = y - (int)map.origin.y;
         //Debug.Log("Moves for " + selectedtile + ":" + (moves[(int)selectedtile]-1));
-        BackgroundTile tile = GetTileAt(x,y);
-        if ((tile != null) && (tile.GetChild() == null) && moves[(int)selectedtile] > 0)
+        BackgroundTile tile = GetTileAt(localX,localY);
+        if ((tile != null) && (tile.GetChild() == null) && map.moves[(int)map.selectedtile] > 0)
         {
             switch (selectedtile)
             {
                 case ActiveTile.type.Black:                 
                         tile.CreateBlackChild();
-                        WorldController.Instance.moves[(int)ActiveTile.type.Black]--;
+                    map.moves[(int)ActiveTile.type.Black]--;
                         StartCoroutine(WorldController.Instance.UpdateTiles());
                     break;
                 case ActiveTile.type.White:
                     tile.CreateWhiteChild();
-                    WorldController.Instance.moves[(int)ActiveTile.type.White]--;
+                    map.moves[(int)ActiveTile.type.White]--;
                     StartCoroutine(WorldController.Instance.UpdateTiles());
                     break;
                 case ActiveTile.type.Yellow:
                     tile.CreateYellowChild();
-                    WorldController.Instance.moves[(int)ActiveTile.type.Yellow]--;
+                    map.moves[(int)ActiveTile.type.Yellow]--;
                     StartCoroutine(WorldController.Instance.UpdateTiles());
                     break;
             }

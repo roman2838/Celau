@@ -5,23 +5,39 @@ public class Map
 {
     private TileGenerator map;
     private LevelController lvl;
-    private Vector3 origin;
+    public Vector3 origin;
     public ActiveTile.type selectedtile;                                        // Current selection from supply
-    private int[] moves;
-    UIController UI;
+    public int[] moves;
+    public UIController UI;
 
-    Map(LevelController lvl, Vector3 origin)
+   public  Map(LevelController lvl, Vector3 origin)
     {
         UI = GameObject.Find("UI").GetComponent<UIController>();
         this.map = new TileGenerator(lvl.Width, lvl.Height);                        // Generate map with Weight/Height given by the Levelcontroller
         this.lvl = lvl;
         this.origin = origin;
+    }
+
+    public void GenerateMap()
+    {
+        // Place initial blocks
+
+        GenerateLevel();
+
+    }
+
+    public void GenerateLevel()
+    {
+        
+        
         //if (lvl == null)
         //    Debug.LogError("Level controller missing!");
         //Debug.Log("Created TileGenerator");
         // Set Cameraposition to center
         //Camera.main.transform.position = new Vector3(lvl.Height / 2, lvl.Width / 2, Camera.main.transform.position.z);
         // Draw the playing field
+
+        // Generate Background Tiles
         for (int x = 0; x < map.Width; x++)
         {
             for (int y = 0; y < map.Height; y++)
@@ -30,14 +46,8 @@ public class Map
                 tile.Sprite = (GameObject)GameObject.Instantiate(WorldController.Instance.BGTile, new Vector3(x, y, 0f) + origin, Quaternion.identity);
             }
         }
-        // Place initial blocks
-        GenerateLevel();
-        if (moves[(int)selectedtile] == 0)
-            SwitchSelectedTile();
-    }
 
-    private void GenerateLevel()
-    {
+        // Fill in ActiveTile from leveldata
         if (lvl.leveldata != null)
             foreach (var tile in lvl.leveldata)
             {
@@ -59,13 +69,20 @@ public class Map
                 }
 
             }
+
+        // Setup supply
         moves = new int[4];
         for (int i = 0; i < lvl.moves.Length; i++)
         {
             moves[i] = lvl.moves[i];
         }
-        // TODO: Make UpdateMoves Available
+
+        // Update UI
+        // TODO: Make UpdateMoves Available (???)
         UI.UpdateMoves(moves);
+
+        if (moves[(int)selectedtile] == 0)
+            SwitchSelectedTile();
     }
     public BackgroundTile GetTileAt(int x, int y)
     {
@@ -90,4 +107,5 @@ public class Map
             }
         }
     }
+
 }
