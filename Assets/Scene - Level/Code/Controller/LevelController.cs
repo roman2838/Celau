@@ -7,7 +7,7 @@ public class LevelController{
     public int Height;
     public int Width;
     //public int Tiles;
-    public LevelData[] leveldata;
+    public TilePrototype[] leveldata;
     public int[] moves;
 //    public enum type { Black, Yellow, White };
     //public int[] Papapapa;
@@ -95,12 +95,12 @@ public class LevelController{
 
     private void GenerateBoardData(XmlReader xreader)
     {
-        List<LevelData> tmp = new List<LevelData>();
+        List<TilePrototype> tmp = new List<TilePrototype>();
         while (xreader.Read())
         {
             if (xreader.Name == "tile")
             {
-                tmp.Add(new LevelData(System.Int32.Parse(xreader.GetAttribute("x")), System.Int32.Parse(xreader.GetAttribute("y")), xreader.GetAttribute("type")));
+                tmp.Add(new TilePrototype(System.Int32.Parse(xreader.GetAttribute("x")), System.Int32.Parse(xreader.GetAttribute("y")), xreader.GetAttribute("type")));
             }
 
         }

@@ -1,14 +1,14 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class LevelData{
+public class TilePrototype{
     public int x;
     public int y;
 //    public enum type { Black, Yellow, White };
 //    public type tiletype;
     public ActiveTile.type type;
 
-    public LevelData(int x, int y, string type)
+    public TilePrototype(int x, int y, string type)
     {
         this.x = x;
         this.y = y;

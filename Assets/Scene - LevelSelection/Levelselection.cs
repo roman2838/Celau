@@ -37,8 +37,6 @@ public class Levelselection : MonoBehaviour {
             }
             else
             {
-                Debug.Log("Select Level Pack");
-                Debug.Log(PlayerPrefs.GetString("LevelFile"));
                 SelectLevelPack(PlayerPrefs.GetString("LevelFile"));
             }
             //filepath = System.IO.Path.Combine(filepath, "Basic.xml");
@@ -83,13 +81,9 @@ public class Levelselection : MonoBehaviour {
     private void SelectLevelPack(string s)
     {
         PlayerPrefs.SetString("LevelFile", s);
-        Debug.Log("Set Playerprefs to" + s);
         string filepath = System.IO.Path.Combine(Application.streamingAssetsPath, "Levels");
-        Debug.Log("create Filepath: "+filepath);
         filepath = System.IO.Path.Combine(filepath, s);
-        Debug.Log("create Filepath: " + filepath);
         string lvlsxml = System.IO.File.ReadAllText(filepath);
-        Debug.Log("Read all text");
         // Setup XML Reader
         System.IO.TextReader treader = new System.IO.StringReader(lvlsxml);
         XmlTextReader xreader = new XmlTextReader(treader);
