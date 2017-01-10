@@ -11,13 +11,16 @@ public class WorldController : MonoBehaviour {
     public bool locked = false;                                                 // Accepts Input? Yes or no!
     public static WorldController Instance { get; protected set; }              //Make this WorldController instance publicly available
 
-    private TileGenerator oldmap;                                                  //Create the map
+    private TileGenerator oldmap;                                                //Create the map
     private List<ActiveTile> activetiles = new List<ActiveTile>();              //List of active Tiles
     private List<GameObject> sprites = new List<GameObject>();                  // Manage Sprites
     public delegate void Del();
     public Del cdqueue;                                                         //Creation/Destruction queue
     public LevelController lvl;
     public Vector3 Origin;
+    public string CrrScene = "LevelSelection";
+    public Dictionary<string, Map> Maps;
+    LevelMap Worldmap;
 
     // NEW CODE USING THE MAP CLASS
     public static Map map;
@@ -36,49 +39,17 @@ public class WorldController : MonoBehaviour {
 
 
         /**********************************
-        / New Code using the map class    *        
+        / Old Code using the map class    *        
         /**********************************/
-        lvl = new LevelController(PlayerPrefs.GetString("currlvl"));
-        map = new Map(lvl, Origin);
-        map.GenerateMap();
-        Debug.Log("We have a map now!");
-        
-        //                                        //
-        // Old code that didn't use the map class //
-        //                                        //
-        /*
-        UI = GameObject.Find("UI").GetComponent<UIController>();
-        
-
-        // Make this accessible via WorldController.Instance
-        if (Instance != null)
-        {
-            Debug.LogError("There should never be two world controllers.");
-        }
-        Instance = this;                                                        // instantiate Worldcontroller
-        Debug.Log(PlayerPrefs.GetString("currlvl"));
-        lvl = new LevelController(PlayerPrefs.GetString("currlvl"));
-        map = new TileGenerator(lvl.Width, lvl.Height);                        // Generate map with Weight/Height given by the Levelcontroller
-        //if (lvl == null)
-        //    Debug.LogError("Level controller missing!");
-        //Debug.Log("Created TileGenerator");
-        // Set Cameraposition to center
-        Camera.main.transform.position = new Vector3(lvl.Height / 2, lvl.Width / 2, Camera.main.transform.position.z);
-        // Draw the playing field
-        for (int x = 0; x < map.Width; x++)
-        {
-            for (int y = 0; y < map.Height; y++)
-            {
-                Tile tile = map.GetTileAt(x, y);
-                tile.Sprite = (GameObject)Instantiate(BGTile, new Vector3(x, y, 0f), Quaternion.identity);
-            }
-        }
-        // Place initial blocks
-        GenerateLevel();
-        if (moves[(int)selectedtile] == 0)
-            SwitchSelectedTile();
-
-    */
+        //lvl = new LevelController(PlayerPrefs.GetString("currlvl"));
+        //map = new Map(lvl, Origin);
+        //map.GenerateMap();
+        //Debug.Log("We have a map now!");
+        /************************************
+        / New Code using the LevelMap class *
+        /************************************/
+        Worldmap = new LevelMap();
+        map = Maps["(T) What's Black?" ];
     }
 
     // Called on destraction of the Object

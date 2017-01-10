@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class Map
 {
@@ -9,8 +10,9 @@ public class Map
     public ActiveTile.type selectedtile;                                        // Current selection from supply
     public int[] moves;
     public UIController UI;
+    private List<ActiveTile> activetiles = new List<ActiveTile>();              //List of active Tiles
 
-   public  Map(LevelController lvl, Vector3 origin)
+    public  Map(LevelController lvl, Vector3 origin)
     {
         UI = GameObject.Find("UI").GetComponent<UIController>();
         this.map = new TileGenerator(lvl.Width, lvl.Height);                        // Generate map with Weight/Height given by the Levelcontroller
@@ -25,6 +27,7 @@ public class Map
         {
             for (int y = 0; y < map.Height; y++)
             {
+                map.GetTileAt(x, y).SetMap(this);
                 Tile tile = map.GetTileAt(x, y);
                 tile.Sprite = (GameObject)GameObject.Instantiate(WorldController.Instance.BGTile, new Vector3(x, y, 0f) + origin, Quaternion.identity);
             }
@@ -106,6 +109,13 @@ public class Map
                 return;
             }
         }
+    }
+
+    public void RegisterTile(ActiveTile atile)
+    {
+        atile.Sprite = (GameObject)GameObject.Instantiate(WorldController.Instance.ATiles[(int)atile.Type], origin + new Vector3(atile.X, atile.Y, 3f), Quaternion.identity);
+        atile.Sprite.GetComponent<Rigidbody>().AddForce(0, 0, -1000f);
+        activetiles.Add(atile);
     }
 
 }

@@ -7,8 +7,8 @@ public class BackgroundTile : Tile {
     protected Dictionary<string, BackgroundTile> neighbors =
         new Dictionary<string, BackgroundTile>();
 
-    bool hasChild = false;
     ActiveTile Child;
+    Map AmbientMap;
 
     public BackgroundTile()
     {
@@ -56,7 +56,7 @@ public class BackgroundTile : Tile {
         {
 //            Debug.Log("Created child at (" + X + "," + Y + ")");
             Child = new ActiveTile(this, X, Y);
-            WorldController.Instance.RegisterTile(Child);
+            AmbientMap.RegisterTile(Child);
         }
     }
 
@@ -70,7 +70,7 @@ public class BackgroundTile : Tile {
         {
             //            Debug.Log("Created child at (" + X + "," + Y + ")");
             Child = new ActiveTile(this, X, Y, ActiveTile.type.Black);
-            WorldController.Instance.RegisterTile(Child);
+            AmbientMap.RegisterTile(Child);
         }
     }
 
@@ -84,7 +84,7 @@ public class BackgroundTile : Tile {
         {
             //            Debug.Log("Created child at (" + X + "," + Y + ")");
             Child = new ActiveTile(this, X, Y, ActiveTile.type.White);
-            WorldController.Instance.RegisterTile(Child);
+            AmbientMap.RegisterTile(Child);
         }
     }
     internal void CreateYellowChild()
@@ -96,7 +96,7 @@ public class BackgroundTile : Tile {
         else
         {
             Child = new ActiveTile(this, X, Y, ActiveTile.type.Yellow);
-            WorldController.Instance.RegisterTile(Child);
+            AmbientMap.RegisterTile(Child);
         }
     }
 
@@ -122,4 +122,10 @@ public class BackgroundTile : Tile {
     {
         throw new NotImplementedException();
     }
+
+    public void SetMap(Map map)
+    {
+        AmbientMap = map;
+    }
 }
+
