@@ -4,6 +4,10 @@ using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
+
+/// <summary>
+/// The class every other class should interact with. Should only pass commands to other classes.
+/// </summary>
 public class WorldController : MonoBehaviour {
     public bool updateneeded = false;
     public GameObject BGTile;                                                   //Backgroundtile Prefab
@@ -11,7 +15,6 @@ public class WorldController : MonoBehaviour {
     public bool locked = false;                                                 // Accepts Input? Yes or no!
     public static WorldController Instance { get; protected set; }              //Make this WorldController instance publicly available
 
-    private TileGenerator oldmap;                                                //Create the map
     private List<ActiveTile> activetiles = new List<ActiveTile>();              //List of active Tiles
     private List<GameObject> sprites = new List<GameObject>();                  // Manage Sprites
     public delegate void Del();
@@ -19,11 +22,10 @@ public class WorldController : MonoBehaviour {
     public LevelController lvl;
     public Vector3 Origin;
     public string CrrScene = "LevelSelection";
-    public Dictionary<string, Map> Maps;
-    LevelMap Worldmap;
+    LevelMap Levelmap;
 
     // NEW CODE USING THE MAP CLASS
-    public static Map map;
+    public static Map crrLevel;
 
 
     void Start() {
@@ -48,8 +50,9 @@ public class WorldController : MonoBehaviour {
         /************************************
         / New Code using the LevelMap class *
         /************************************/
-        Worldmap = new LevelMap();
-        map = Maps["(T) What's Black?" ];
+        Levelmap = new LevelMap();
+        crrLevel = Levelmap.Maps[0];
+        Debug.Log(crrLevel.name);
     }
 
     // Called on destraction of the Object
@@ -71,9 +74,9 @@ public class WorldController : MonoBehaviour {
         cdqueue = () => { };
         updateneeded = false;
         locked = false;
-        map.UI.SetWLStatus();
-        map.GenerateLevel();
-        if (map.moves[(int)map.selectedtile] == 0)
+        crrLevel.UI.SetWLStatus();
+        crrLevel.GenerateLevel();
+        if (crrLevel.moves[(int)crrLevel.selectedtile] == 0)
             SwitchSelectedTile();
 
     }
@@ -117,21 +120,21 @@ public class WorldController : MonoBehaviour {
 	// Find the tile at position x,y
     public BackgroundTile GetTileAt(int x, int y)
     {
-        return map.GetTileAt(x, y);
+        return crrLevel.GetTileAt(x, y);
         
     }
 
     // Register tile to the ActiveTiles list and create the sprite
     public void RegisterTile(ActiveTile atile)
     {
-        if (map == null)
+        if (crrLevel == null)
         {
             Debug.Log("Map not found");
-            if (map.origin == null)
+            if (crrLevel.origin == null)
                 Debug.Log("No Origin");
         }
         
-        atile.Sprite = (GameObject)Instantiate(ATiles[(int)atile.Type],map.origin +  new Vector3(atile.X, atile.Y, 3f), Quaternion.identity);
+        atile.Sprite = (GameObject)Instantiate(ATiles[(int)atile.Type],crrLevel.origin +  new Vector3(atile.X, atile.Y, 3f), Quaternion.identity);
         atile.Sprite.GetComponent<Rigidbody>().AddForce(0, 0, -1000f);
         activetiles.Add(atile);    
     }
@@ -188,42 +191,42 @@ public class WorldController : MonoBehaviour {
     public void CheckWinCondition()
     {
         int totalmoves = 0;
-        foreach (int i in map.moves)
+        foreach (int i in crrLevel.moves)
             totalmoves += i;
-        map.UI.UpdateMoves(map.moves);
+        crrLevel.UI.UpdateMoves(crrLevel.moves);
         if (activetiles.Count == 0)
         {
-            map.UI.SetWLStatus(true, activetiles.Count);
+            crrLevel.UI.SetWLStatus(true, activetiles.Count);
         }
         else if (totalmoves == 0)
-            map.UI.SetWLStatus(false, activetiles.Count);
+            crrLevel.UI.SetWLStatus(false, activetiles.Count);
         else locked = false;
     }
     
 
     public void OnAction(int x, int y)
     {
-        int localX = x - (int)map.origin.x;
-        int localY = y - (int)map.origin.y;
+        int localX = x - (int)crrLevel.origin.x;
+        int localY = y - (int)crrLevel.origin.y;
         //Debug.Log("Moves for " + selectedtile + ":" + (moves[(int)selectedtile]-1));
         BackgroundTile tile = GetTileAt(localX,localY);
-        if ((tile != null) && (tile.GetChild() == null) && map.moves[(int)map.selectedtile] > 0)
+        if ((tile != null) && (tile.GetChild() == null) && crrLevel.moves[(int)crrLevel.selectedtile] > 0)
         {
-            switch (map.selectedtile)
+            switch (crrLevel.selectedtile)
             {
                 case ActiveTile.type.Black:                 
                         tile.CreateBlackChild();
-                    map.moves[(int)ActiveTile.type.Black]--;
+                    crrLevel.moves[(int)ActiveTile.type.Black]--;
                         StartCoroutine(WorldController.Instance.UpdateTiles());
                     break;
                 case ActiveTile.type.White:
                     tile.CreateWhiteChild();
-                    map.moves[(int)ActiveTile.type.White]--;
+                    crrLevel.moves[(int)ActiveTile.type.White]--;
                     StartCoroutine(WorldController.Instance.UpdateTiles());
                     break;
                 case ActiveTile.type.Yellow:
                     tile.CreateYellowChild();
-                    map.moves[(int)ActiveTile.type.Yellow]--;
+                    crrLevel.moves[(int)ActiveTile.type.Yellow]--;
                     StartCoroutine(WorldController.Instance.UpdateTiles());
                     break;
             }
@@ -233,12 +236,12 @@ public class WorldController : MonoBehaviour {
     public void SwitchSelectedTile()
     {
         int i = 0;
-        while (++i <= map.moves.Length)
+        while (++i <= crrLevel.moves.Length)
         {
-            if (map.moves[(((int)map.selectedtile + i) % map.moves.Length)] != 0)
+            if (crrLevel.moves[(((int)crrLevel.selectedtile + i) % crrLevel.moves.Length)] != 0)
             {
-                map.selectedtile = (ActiveTile.type)(((int)map.selectedtile + i) % map.moves.Length);
-                map.UI.UpdateHighlight(map.selectedtile);
+                crrLevel.selectedtile = (ActiveTile.type)(((int)crrLevel.selectedtile + i) % crrLevel.moves.Length);
+                crrLevel.UI.UpdateHighlight(crrLevel.selectedtile);
                 return;
             }
         }

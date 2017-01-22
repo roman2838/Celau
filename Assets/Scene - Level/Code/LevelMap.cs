@@ -2,9 +2,13 @@
 using System.Collections.Generic;
 using System.Xml;
 
+
+/// <summary>
+/// Generates all maps from XML and gives access to liste of levels via .Maps attribute, should only be called by the LevelController.
+/// </summary>
 public class LevelMap {
 
-    public Dictionary<string, Map> Maps;
+    public List<Map> Maps;
     private List<string> lvlnames;
 
     public LevelMap(string lvlpack = "Basic.xml")
@@ -23,7 +27,7 @@ public class LevelMap {
 
     public void PopulateWorld(XmlTextReader xreader)
     {
-        Maps = new Dictionary<string, Map>();
+        Maps = new List<Map>();
         lvlnames = new List<string>();
         do
         {
@@ -38,8 +42,9 @@ public class LevelMap {
             {
                 LevelController lvl = new LevelController(s);
                 Map map = new Map(lvl, new Vector3(0, i * 20, 0));
-                Maps.Add(s, map);
-                Maps[s].GenerateMap();
+                map.name = s;
+                Maps.Add(map);
+                Maps[i].GenerateMap();
                 i += 1;
             }
                 //GameObject go = (GameObject)Instantiate(buttonprefab);
@@ -81,6 +86,6 @@ public class LevelMap {
                 //b.interactable = true;
                 //buttons.Add(go);
         }
-        WorldController.Instance.Maps = Maps;
+        Debug.Log(Maps[0].name);
     }
 }

@@ -3,6 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using System;
 
+
+/// <summary>
+///  The Backgroundtile prototype. Knows its child and the ambient map
+/// </summary>
 public class BackgroundTile : Tile {
     protected Dictionary<string, BackgroundTile> neighbors =
         new Dictionary<string, BackgroundTile>();

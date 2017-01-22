@@ -2,6 +2,10 @@
 using System.Collections;
 using System.Collections.Generic;
 
+
+/// <summary>
+/// ActiveTile prototype, contains game logic for gems.
+/// </summary>
 public class ActiveTile : Tile
 {
     public enum type { Black, White, Yellow, Blue};

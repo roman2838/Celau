@@ -5,6 +5,10 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using System;
 
+/// <summary>
+/// Old UI, should be Obsolete!
+/// </summary>
+
 public class Levelselection : MonoBehaviour {
 
     List<string> lvlnames;

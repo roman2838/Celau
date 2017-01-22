@@ -1,11 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+/// <summary>
+/// Generates Backgroundmap and holds all Neighbor information
+/// </summary>
 public class TileGenerator{
     private int width = 10;
     private int height = 10;
     BackgroundTile[,] map;
-    bool refresh = false;
 
     public int Width
     {

@@ -2,7 +2,11 @@
 using System.Collections.Generic;
 using System.Xml;
 
-public class LevelController{
+/// <summary>
+/// Holds Height, Width, moves and initial placement of gems.
+/// Also reads this information from XML on construction.
+/// </summary>
+ public class LevelController{
 
     public int Height;
     public int Width;

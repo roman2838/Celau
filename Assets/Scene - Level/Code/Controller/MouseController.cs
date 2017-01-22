@@ -2,12 +2,16 @@
 using System.Collections;
 using System;
 
+/// <summary>
+///  MouseController, should interact only with the WorldController
+/// </summary>
+
 public class MouseController : MonoBehaviour
 {
     public GameObject hover;
     private LevelController lvl;
     public Material[] materials;
-    public Renderer rend;
+    private Renderer rend;
     private bool hasMoved = false;
     
     //    public Object marker;
@@ -102,7 +106,7 @@ public class MouseController : MonoBehaviour
             //    rend.sharedMaterial = materials[1];
             //else if (WorldController.Instance.selectedtile == ActiveTile.type.White)
             //    rend.sharedMaterial = materials[2];
-            rend.sharedMaterial = materials[(int)WorldController.map.selectedtile +1];
+            rend.sharedMaterial = materials[(int)WorldController.crrLevel.selectedtile +1];
         }  
     }
 }

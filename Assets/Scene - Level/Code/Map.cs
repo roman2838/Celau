@@ -2,6 +2,10 @@
 using System.Collections;
 using System.Collections.Generic;
 
+/// <summary>
+/// The Level itself, holds Origin and Mapdata, has own UI and ActiveTiles list.
+/// Get the name by .name attribute.
+/// </summary>
 public class Map
 {
     private TileGenerator map;
@@ -11,6 +15,7 @@ public class Map
     public int[] moves;
     public UIController UI;
     private List<ActiveTile> activetiles = new List<ActiveTile>();              //List of active Tiles
+    public string name;
 
     public  Map(LevelController lvl, Vector3 origin)
     {

@@ -1,6 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+/// <summary>
+/// Holds Data for initial Gem placement, shouldn't be used for anything other than map creation.
+/// </summary>
+
 public class TilePrototype{
     public int x;
     public int y;
