@@ -9,7 +9,6 @@ using System;
 public class MouseController : MonoBehaviour
 {
     public GameObject hover;
-    private LevelController lvl;
     public Material[] materials;
     private Renderer rend;
     private bool hasMoved = false;
@@ -31,9 +30,6 @@ public class MouseController : MonoBehaviour
         
         hover = (GameObject)Instantiate(hover);
         rend = hover.GetComponent<Renderer>();
-        if (WorldController.Instance != null)
-            if(WorldController.Instance.lvl != null)
-                lvl = WorldController.Instance.lvl;
         currFrameWorldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         currFrameWorldPosition.z = .5f;
     }
@@ -41,8 +37,7 @@ public class MouseController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (lvl == null)
-            lvl = WorldController.Instance.lvl;
+
         //       currFramePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         //        currFramePosition.z = .5f;
 
@@ -106,7 +101,7 @@ public class MouseController : MonoBehaviour
             //    rend.sharedMaterial = materials[1];
             //else if (WorldController.Instance.selectedtile == ActiveTile.type.White)
             //    rend.sharedMaterial = materials[2];
-            rend.sharedMaterial = materials[(int)WorldController.crrLevel.selectedtile +1];
+            rend.sharedMaterial = materials[(int)WorldController.GetSelectedTile() +1];
         }  
     }
 }

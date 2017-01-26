@@ -19,13 +19,12 @@ public class WorldController : MonoBehaviour {
     private List<GameObject> sprites = new List<GameObject>();                  // Manage Sprites
     public delegate void Del();
     public Del cdqueue;                                                         //Creation/Destruction queue
-    public LevelController lvl;
     public Vector3 Origin;
     public string CrrScene = "LevelSelection";
-    LevelMap Levelmap;
+    private LevelMap Levelmap;
 
     // NEW CODE USING THE MAP CLASS
-    public static Map crrLevel;
+    //public static Map crrLevel;
 
 
     void Start() {
@@ -51,8 +50,7 @@ public class WorldController : MonoBehaviour {
         / New Code using the LevelMap class *
         /************************************/
         Levelmap = new LevelMap();
-        crrLevel = Levelmap.Maps[0];
-        Debug.Log(crrLevel.name);
+        Levelmap.SetCurrentMap(0);
     }
 
     // Called on destraction of the Object
@@ -61,6 +59,8 @@ public class WorldController : MonoBehaviour {
         Destroy(Instance);                                                      // Destroy the instance of the world controller.
     }
 
+
+    // TODO: Move this into LevelMap?!
     private IEnumerator RestartRoutine()
     {
         List<ActiveTile> tmp = new List<ActiveTile>(activetiles);                       // Generate temporary list for foreach, since CheckNeighbors modifies activetiles
@@ -74,10 +74,10 @@ public class WorldController : MonoBehaviour {
         cdqueue = () => { };
         updateneeded = false;
         locked = false;
-        crrLevel.UI.SetWLStatus();
-        crrLevel.GenerateLevel();
-        if (crrLevel.moves[(int)crrLevel.selectedtile] == 0)
-            SwitchSelectedTile();
+//        crrLevel.UI.SetWLStatus();
+        //crrLevel.GenerateLevel();
+//        if (crrLevel.moves[(int)crrLevel.selectedtile] == 0)
+//            SwitchSelectedTile();
 
     }
 
@@ -120,7 +120,7 @@ public class WorldController : MonoBehaviour {
 	// Find the tile at position x,y
     public BackgroundTile GetTileAt(int x, int y)
     {
-        return crrLevel.GetTileAt(x, y);
+        return Levelmap.GetTileAt(x, y);
         
     }
 
@@ -245,5 +245,9 @@ public class WorldController : MonoBehaviour {
                 return;
             }
         }
+    }
+    public static ActiveTile.type GetSelectedTile()
+    {
+        return Levelmap.GetSelected();
     }
 }

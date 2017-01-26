@@ -4,7 +4,8 @@ using System.Collections.Generic;
 
 /// <summary>
 /// The Level itself, holds Origin and Mapdata, has own UI and ActiveTiles list.
-/// Get the name by .name attribute.
+/// Has name attribute and GenerateMap(), SwitchSelectedTile(), GetTileAt() methods.
+/// Access via LevelMap.current!
 /// </summary>
 public class Map
 {
@@ -19,12 +20,15 @@ public class Map
 
     public  Map(LevelController lvl, Vector3 origin)
     {
+        // TODO: UI should be instanced for each map
         UI = GameObject.Find("UI").GetComponent<UIController>();
         this.map = new TileGenerator(lvl.Width, lvl.Height);                        // Generate map with Weight/Height given by the Levelcontroller
         this.lvl = lvl;
         this.origin = origin;
     }
-
+    /// <summary>
+    /// Generates BG-map and places initial tiles
+    /// </summary>
     public void GenerateMap()
     {
         // Generate Background Tiles
@@ -40,10 +44,10 @@ public class Map
         // Fill in ActiveTile from LevelData
         GenerateLevel();
         // Set Cameraposition to center
-        Camera.main.transform.position = new Vector3(lvl.Height / 2 + origin.x , lvl.Width / 2 + origin.y , Camera.main.transform.position.z);
-
     }
-
+    /// <summary>
+    /// Place initial tiles, set moves, set UI.
+    /// </summary>
     public void GenerateLevel()
     {
         
@@ -123,4 +127,13 @@ public class Map
         activetiles.Add(atile);
     }
 
+    public int GetHeight()
+    {
+        return lvl.Height;
+    }
+
+    public int GetWidth()
+    {
+        return lvl.Width;
+    }
 }

@@ -4,12 +4,13 @@ using System.Xml;
 
 
 /// <summary>
-/// Generates all maps from XML and gives access to liste of levels via .Maps attribute, should only be called by the LevelController.
+/// Generates all maps from XML and gives access to liste of levels via .Maps attribute.
 /// </summary>
 public class LevelMap {
 
     public List<Map> Maps;
     private List<string> lvlnames;
+    private Map current;
 
     public LevelMap(string lvlpack = "Basic.xml")
     {
@@ -87,5 +88,35 @@ public class LevelMap {
                 //buttons.Add(go);
         }
         Debug.Log(Maps[0].name);
+    }
+    public bool SetCurrentMap(string s)
+    {
+        int i = Maps.FindIndex(x => x.name == s);
+        return SetCurrentMap(i);
+    }
+
+    public bool SetCurrentMap(int i)
+    {
+        if(i < Maps.Count)
+        {
+            current = Maps[i];
+            Camera.main.transform.position = new Vector3(current.GetHeight() / 2 + current.origin.x, current.GetWidth() / 2 + current.origin.y, Camera.main.transform.position.z);
+            return true;
+        }
+        else
+        {
+            Debug.LogError("Index out of range\n Index: " + i + "\n Size of Maps: " + Maps.Count);
+            return false;
+        }
+    }
+
+    public ActiveTile.type GetSelected()
+    {
+        return current.selectedtile;
+    }
+
+    public BackgroundTile GetTileAt(int x, int y)
+    {
+        return current.GetTileAt(x, y);
     }
 }
